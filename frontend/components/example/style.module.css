@@ -1,0 +1,7 @@
+
+.kotek {
+    color: red;
+    @media (--md) {
+        color: blue;
+    }
+}
