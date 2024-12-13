@@ -8,16 +8,23 @@ public class MainMenu : MonoBehaviour
 {
     //[SerializeField] Button playButton;
     [SerializeField] GameController gameController;
+    [SerializeField] AudioSource audioSource;
 
     public void OnPlayButtonClicked()
     {
         SceneManager.LoadScene("Game");
         gameController.SwitchState(gameController.playState);
+        audioSource.Play();
+    }
+    public void OnButtonClicked()
+    {
+        audioSource.Play();
     }
 
     public void OnExitButtonClicked()
     {
-        #if UNITY_EDITOR
+        audioSource.Play();
+#if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;
         #else
         Application.Quit();
