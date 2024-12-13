@@ -4,14 +4,29 @@ using UnityEngine;
 
 public class GameController : MonoBehaviour
 {
+    public static GameController Instance { get; private set; }
+
+    BaseState currentState;
+
     public PlayState playState = new PlayState();
     public MainMenuState mainMenuState = new MainMenuState();
     public ChallengeState challengeState = new ChallengeState();
-    BaseState currentState;
+
+    public GameSceneController gameSceneController;
 
     private void Awake()
     {
         DontDestroyOnLoad(this.gameObject);
+
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
     }
 
     void Start()
@@ -31,5 +46,10 @@ public class GameController : MonoBehaviour
         currentState.ExitState(this);
         currentState = newState;
         currentState.EnterState(this);
+    }
+
+    public void SetGameSceneController()
+    {
+        this.gameSceneController = GameObject.FindObjectOfType<GameSceneController>();
     }
 }
