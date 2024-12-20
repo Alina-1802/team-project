@@ -12,18 +12,14 @@ body {
   margin: 0;
   padding: 0;
   height: 100%;
-  background-image: url("../image/background.png");
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  backdrop-filter: brightness(60%);
+
 
 }
 
-.login {
-  padding: 7em 3em 3em 3em;
+.panel_login_register {
+  padding: 4em 3em 3em 3em;
   max-width: 30em;
-  height: 40em;
+  min-height: 40em;
   max-height: 120em;
   color: var(--white);
   display: flex;
@@ -48,41 +44,58 @@ body {
     left: calc(50%);
   }
 }
-input[type="text"]:invalid:not(:placeholder-shown),
-input[type="password"]:invalid:not(:placeholder-shown){
+@keyframes move-left {
+  0% {
+    left: calc(50%);
+  }
+  100% {
+    left: 0;
+  }
+}
+
+.panel_login_register input[type="text"]:invalid:not(:placeholder-shown),
+.panel_login_register input[type="password"]:invalid:not(:placeholder-shown),
+.panel_login_register input[type="email"]:invalid:not(:placeholder-shown)
+{
   border: var(--red) solid 2px !important;
   background-image: url("../image/checked_red.png") ;
 
 }
-input[type="text"]:valid:not(:placeholder-shown),
-input[type="password"]:valid:not(:placeholder-shown){
+.panel_login_register input[type="text"]:valid:not(:placeholder-shown),
+input[type="password"]:valid:not(:placeholder-shown),
+input[type="email"]:valid:not(:placeholder-shown){
   background-image: url("../image/checked_green.png") ;
 
 }
-input[type="text"]:valid:not(:placeholder-shown),
-input[type="password"]:valid:not(:placeholder-shown),
-input[type="text"]:invalid:not(:placeholder-shown),
-input[type="password"]:invalid:not(:placeholder-shown){
+.panel_login_register input[type="text"]:valid:not(:placeholder-shown),
+.panel_login_register input[type="password"]:valid:not(:placeholder-shown),
+.panel_login_register input[type="email"]:valid:not(:placeholder-shown),
+.panel_login_register input[type="text"]:invalid:not(:placeholder-shown),
+.panel_login_register input[type="password"]:invalid:not(:placeholder-shown),
+.panel_login_register input[type="email"]:invalid:not(:placeholder-shown){
   background-size: 20px;
   background-repeat: no-repeat;
   background-position: calc(100% - 10px);
 
 }
 
-input:invalid ~ button[type="submit"] {
+.panel_login_register input:invalid ~ input[type="submit"] {
   pointer-events: none;
+}
+.panel_login_register input[type="submit"],.panel_login_register button,.panel_login_register input[type="checkbox"],.panel_login_register select {
+  cursor: pointer;
 }
 .button_block
 {
-  margin-top: 6em;
+  margin-top: 2em;
   display: flex;
   flex-direction: column;
   gap: 1em;
 }
-.login-form input {
+.panel_login_register input {
   margin: 0 0 12px 0;
   padding: 12px;
-  width: 30em;
+  width: 28.8em;
   border:none;
   border-radius: 0.5em;
   font-weight: bold;
@@ -102,15 +115,14 @@ input:invalid ~ button[type="submit"] {
 .register-button {
 color: var(--primary);
 }
-.background_box{
+.background_box_login{
   display: flex;
   position: relative;
   width: 60em;
-  /*background-color: var(--primary);*/
   height: 30em;
   margin-top: 20%; /* do usuniecia */
 }
-.background_box::before {
+.background_box_login::before {
   content: '';
   position: absolute;
   top: 0;
@@ -145,4 +157,219 @@ color: var(--primary);
   outline: none;
   border: none;
   border-radius: 5px;
+}
+.button_on_left{
+  left: 9em;
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  bottom: 14em;
+}
+.button_on_left label{
+  color: var(--white);
+  font-size: xx-large;
+  text-align: center;
+}
+.button_on_left button{
+  color: var(--white);
+  background-image: linear-gradient(120deg,var(--secondary) 0%, var(--primary) 52%) !important;
+  padding: 27px 69px 27px 69px;
+  outline: none;
+  border: none;
+  border-radius: 5px;
+}
+.login > * {
+  opacity: 0;
+  visibility: hidden;
+  display: none;
+}
+.login.active > * {
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.5s ease, visibility 0.5s ease;
+  display: block;
+}
+.register > *{
+  opacity: 0;
+  visibility: hidden;
+  display: none;
+}
+.register.active > * {
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.5s ease, visibility 0.5s ease;
+  display: block;
+}
+.register_password_block > *{
+  width: 50%;
+}
+.register_password_block input[type="password"] {
+  width: 12.6em;
+}
+.register_password_block {
+  display: inline-flex;
+  column-gap: 46px;
+}
+select{
+  margin: 0 0 12px 0;
+  padding: 12px;
+  width: 28.8em;
+  border: none;
+  border-radius: 0.5em;
+  font-weight: bold;
+  -webkit-box-shadow: 8px 8px 24px 1px rgba(66, 68, 90, 1);
+  -moz-box-shadow: 8px 8px 24px 1px rgba(66, 68, 90, 1);
+  box-shadow: 8px 8px 24px 1px rgba(66, 68, 90, 1);
+  background-color: var(--white);
+  outline: none;
+}
+.checxbox_box{
+  display: inline-flex;
+  width: auto;
+  gap: 20px;
+  flex-direction: column;
+  font-size: small;
+}
+.checxbox_box input{
+  width: auto;
+  border-radius: 10%;
+  appearance: none;
+  -webkit-appearance: none;
+  cursor: pointer;
+  padding: 6px;
+  background-color: white;
+  margin: 0 4px 0 0;
+  border: 2px solid var(--white);
+}
+.checxbox_box input:checked{
+  background-color: var(--primary);
+  border-color: var(--white);
+}
+.forgot_password {
+
+}
+.forgot_password > *{
+  opacity: 0;
+  visibility: hidden;
+  display: none;
+}
+.forgot_password.active > * {
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.5s ease, visibility 0.5s ease;
+  display: block;
+}
+.forgot_password h1{
+  margin:unset;
+}
+.small_text_forgot
+{
+  font-size: small;
+  margin: 10px 0 20px 0;
+}
+/* TU JEST KOD DO TEMPLATKI NARAZIE TU POZNIEJ BEDZIE W OSOBNYM PLIKU*/
+
+.main_container{
+  background-image: url(../image/background.png);
+  width: 100%;
+  height: 90vh;
+  margin: unset;
+  background-color: #7e6969d6;
+  background-clip: border-box;
+  background-origin: border-box;
+  background-size: unset;
+  background-position: center;
+  background-blend-mode: multiply;
+}
+.main_nav{
+  position: relative;
+  width: 100vw;
+  padding: 0 4vw 0 5vw;
+  background-color: black;
+  margin: 0;
+  height: 10vh;
+}
+.nav_header{
+  width: 100%;
+  border-bottom: var(--primary) 1px solid;
+  padding: 7px 12px 3px 12px;
+
+}
+.main_nav label{
+  font-size: xxx-large;
+  background-image: linear-gradient(90deg, rgba(254, 254, 250, 1) 0%, rgba(191, 138, 232, 1) 18%, rgba(134, 59, 192, 1) 24%);
+  -webkit-background-clip: text;
+  color: transparent;
+  margin-left: 13px;
+}
+.main_nav_item{
+  color: var(--white);
+  font-size: large;
+  font-weight: bold;
+}
+.main_nav_item:hover{
+  color: var(--primary);
+  text-decoration: none;
+  cursor: pointer;
+
+}
+.main_nav_list{
+  position: absolute;
+  top: 1.6em;
+  display: flex;
+  flex-wrap: nowrap;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 46px;
+  list-style: none;
+  right: 4vw;
+}
+.icon{
+  color: var(--white) !important;
+  cursor: pointer !important;
+  font-size: medium !important;
+}
+.right_icon{
+  position: absolute;
+  right: 4vw;
+}
+.icon:hover{
+  color: var(--primary) !important;
+}
+.container{
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  color: var(--white);
+  gap: 20px;
+  padding-top: 9em;
+}
+.title{
+  font-size: 40px;
+  background-image: linear-gradient(90deg, rgba(254, 254, 250, 1) 0%, rgba(191, 138, 232, 1) 18%, rgba(134, 59, 192, 1) 24%);
+  -webkit-background-clip: text;
+  color: transparent;
+  font-weight: bold;
+  margin-left: 13px;
+}
+.sub_title{
+  font-size:20px;
+  color: var(--white);
+}
+.join_to_us{
+  font-size: 30px;
+  text-transform: uppercase;
+}
+.container button{
+  color: var(--white);
+  background-image: linear-gradient(120deg, var(--secondary) 0%, var(--primary) 52%) !important;
+  padding: 15px 69px 15px 69px;
+  outline: none;
+  border: none;
+  border-radius: 5px;
+  font-size: x-large;
+  cursor: pointer;
 }
