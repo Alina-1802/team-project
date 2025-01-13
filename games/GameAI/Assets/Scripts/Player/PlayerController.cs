@@ -4,5 +4,9 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-
+    [SerializeField] PlayerMovement playerMovement;
+    public void UpdatePlayer()
+    {
+        playerMovement.MovePlayer();
+    }
 }

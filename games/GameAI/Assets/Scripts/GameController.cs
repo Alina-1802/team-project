@@ -38,7 +38,6 @@ public class GameController : MonoBehaviour
     void Update()
     {
         currentState.UpdateState(this);
-        //Debug.Log("State" + currentState.ToString());
     }
 
     public void SwitchState(BaseState newState)

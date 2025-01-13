@@ -16,7 +16,7 @@ public class PlayState : BaseState
         }
         else
         {
-            
+            gameController.gameSceneController.Player.UpdatePlayer();
         }
     }
     public override void ExitState(GameController gameController)
