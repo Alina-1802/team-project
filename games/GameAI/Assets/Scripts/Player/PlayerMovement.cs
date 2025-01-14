@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -20,11 +21,22 @@ public class PlayerMovement : MonoBehaviour
     private float jumpForce = 3f;
     private float fallingSpeed = 2f;
 
+    public bool IsWalking { get; set; }
+    public bool IsSprinting { get; set; }
+    public bool IsJumping { get; set; }
+
     public void MovePlayer()
     {
         float horizontalInput = Input.GetAxisRaw("Horizontal");
         float verticalInput = Input.GetAxisRaw("Vertical");
         bool jumpInput = Input.GetButtonDown("Jump");
+        bool sprintInput = Input.GetKey(KeyCode.LeftShift);
+
+        Vector3 moveDirection = Vector3.zero;
+
+        IsWalking = false;
+        IsSprinting = false;
+        IsJumping = false;
 
         isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
 
@@ -41,13 +53,26 @@ public class PlayerMovement : MonoBehaviour
             float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, turnSmoothTime);
             transform.rotation = Quaternion.Euler(0f, angle, 0f);
 
-            Vector3 moveDirection = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
+            moveDirection = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
             characterController.Move(moveDirection.normalized * speed * Time.deltaTime);
+
+            IsWalking = true;
+        }
+
+        if(sprintInput)
+        {
+            characterController.Move(moveDirection.normalized * speed * Time.deltaTime);
+            IsWalking = false;
+            IsSprinting = true;
         }
 
         if(isGrounded && jumpInput)
         {
             velocity.y = Mathf.Sqrt(jumpForce * -2f * gravity);
+
+            IsSprinting = false;
+            IsWalking = false;
+            IsJumping = true;
         }
         velocity.y += gravity * Time.deltaTime * fallingSpeed;
         characterController.Move(velocity * Time.deltaTime);
