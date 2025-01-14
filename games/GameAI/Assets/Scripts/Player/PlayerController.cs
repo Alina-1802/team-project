@@ -10,6 +10,6 @@ public class PlayerController : MonoBehaviour
     public void UpdatePlayer()
     {
         playerMovement.MovePlayer();
-        playerAnimation.PlayPlayerAnimations(playerMovement.IsWalking, playerMovement.IsSprinting, playerMovement.IsJumping);
+        playerAnimation.PlayPlayerAnimations(playerMovement.IsWalking, playerMovement.IsSprinting, playerMovement.IsJumping, playerMovement.IsDoubleJumping);
     }
 }

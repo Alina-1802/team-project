@@ -7,10 +7,11 @@ public class PlayerAnimation : MonoBehaviour
 {
     [SerializeField] Animator animator;
 
-    public void PlayPlayerAnimations(bool isWalking, bool isSprinting, bool isJumping)
+    public void PlayPlayerAnimations(bool isWalking, bool isSprinting, bool isJumping, bool isDoubleJumping)
     {
         animator.SetBool("IsWalking", isWalking);
         animator.SetBool("IsSprinting", isSprinting);
+        animator.SetBool("IsDoubleJumping", isDoubleJumping);
 
         if(isJumping)
         {
@@ -20,5 +21,6 @@ public class PlayerAnimation : MonoBehaviour
         Debug.Log("IsWalking" + isWalking);
         Debug.Log("IsSprinting" + isSprinting);
         Debug.Log("Jump" + isJumping);
+        Debug.Log("IsDoubleJumping" + isDoubleJumping);
     }
 }

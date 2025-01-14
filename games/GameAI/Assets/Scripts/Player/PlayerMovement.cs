@@ -20,10 +20,12 @@ public class PlayerMovement : MonoBehaviour
     private bool isGrounded = false;
     private float jumpForce = 3f;
     private float fallingSpeed = 2f;
+    private bool canDoubleJump = false;
 
     public bool IsWalking { get; set; }
     public bool IsSprinting { get; set; }
     public bool IsJumping { get; set; }
+    public bool IsDoubleJumping { get; set; }
 
     public void MovePlayer()
     {
@@ -37,12 +39,14 @@ public class PlayerMovement : MonoBehaviour
         IsWalking = false;
         IsSprinting = false;
         IsJumping = false;
+        IsDoubleJumping = false;
 
         isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
 
         if (isGrounded && velocity.y < 0)
         {
             velocity.y = -2f;
+            canDoubleJump = true;
         }
 
         Vector3 direction = new Vector3(horizontalInput, 0f, verticalInput).normalized;
@@ -73,7 +77,20 @@ public class PlayerMovement : MonoBehaviour
             IsSprinting = false;
             IsWalking = false;
             IsJumping = true;
+
+            canDoubleJump = true;
         }
+        else if (!isGrounded && jumpInput && canDoubleJump)
+        {
+            velocity.y = Mathf.Sqrt(jumpForce * -2f * gravity);
+
+            IsSprinting = false;
+            IsWalking = false;
+            IsDoubleJumping = true;
+
+            canDoubleJump = false;
+        }
+
         velocity.y += gravity * Time.deltaTime * fallingSpeed;
         characterController.Move(velocity * Time.deltaTime);
     }
