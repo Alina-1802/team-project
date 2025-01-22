@@ -78,3 +78,4 @@ crashlytics-build.properties
 /frontend/node_modules/
 /frontend/dist/
 /.idea/*
+/backend/target
