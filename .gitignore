@@ -71,11 +71,4 @@ crashlytics-build.properties
 /[Aa]ssets/[Ss]treamingAssets/aa.meta
 /[Aa]ssets/[Ss]treamingAssets/aa/*
 
-# --------------------------
-# frontend
-# --------------------------
-
-/frontend/node_modules/
-/frontend/dist/
-/.idea/*
-/backend/target
+.idea
