@@ -1,13 +1,50 @@
 import styles from "./style.module.css";
 import clsx from "clsx";
-import {useRef, useState} from "react";
-import Nav from "@components/nav/Nav";
+import {useState} from "react";
+import useLoginMutation, {LoginException, LoginPayload, LoginResponse} from "./hooks/useLoginMutation.ts";
+import useRegisterMutation, {RegisterException, RegisterPayload, RegisterResponse} from "./hooks/useRegisterMutation.ts";
+import useAppContext from "@hooks/useAppContext.ts";
 
 export default function Page() {
+    const {setValue} = useAppContext()
     const [isRight, setIsRight] = useState(false)
     const [loginActive, setLoginActive] = useState(true)
     const [registerActive, setRegisterActive] = useState(false)
     const [forgotActive, setForgotActive] = useState(false)
+
+    const onSuccessLogin = (result: LoginResponse, payload: LoginPayload) => {
+        console.log('login success', result);
+        setValue('token', typeof result === 'string' ? result : result.token)
+        setValue('email', payload.username)
+    }
+    const onErrorLogin = (data: LoginException) => {
+        console.log('login error', data);
+    }
+    const onSuccessRegister = (result: RegisterResponse, payload: RegisterPayload) => {
+        console.log('register success', result, payload);
+    }
+    const onErrorRegister = (data: RegisterException) => {
+        console.log('register error', data);
+    }
+
+    const loginMutation = useLoginMutation({onSuccess: onSuccessLogin, onError: onErrorLogin});
+    const registerMutation = useRegisterMutation({onSuccess: onSuccessRegister, onError: onErrorRegister});
+
+    const onClickLogin = (e: any) => {
+        e.preventDefault();
+        const form = e.target;
+        const login = form.login.value;
+        const pass = form.pass.value;
+        loginMutation.mutate({username: login, password: pass});
+    }
+    const onClickRegister = (e: any) => {
+        e.preventDefault();
+        const form = e.target;
+        // const nick = form.nick.value;
+        const email = form.email.value;
+        const pass = form.pass.value;
+        registerMutation.mutate({username: email, password: pass});
+    }
 
     const onClickChangePanelRegister = () => {
         setIsRight(true);
@@ -33,7 +70,7 @@ export default function Page() {
                     <article className={clsx(styles.panel_login_register, isRight && styles.isRight)}>
                         <div className={clsx(styles.login, loginActive && styles.active)}>
                             <h1>Zaloguj się</h1>
-                            <form action="#" className={styles.login_form}>
+                            <form className={styles.login_form} onSubmit={onClickLogin}>
                                 <label htmlFor="login">Login</label>
                                 <input type="text" placeholder="login" name="login" id="login" required/>
                                 <label htmlFor="pass">Hasło</label>
@@ -48,12 +85,12 @@ export default function Page() {
                         </div>
                         <div className={clsx(styles.register, registerActive && styles.active)}>
                             <h1>Zarejestruj się</h1>
-                            <form action="#" className={styles.register_form}>
+                            <form className={styles.register_form} onSubmit={onClickRegister}>
                                 <label htmlFor="nick">Nick</label>
                                 <input type="text" placeholder="nick" name="nick" id="nick" required/>
                                 <label htmlFor="email">Email</label>
                                 <input type="email" placeholder="email" name="email" id="email"
-                                       pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" required/>
+                                       pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" required/>
                                 <div className={styles.register_password_block}>
                                     <div>
                                         <label htmlFor="pass_reg">Hasło</label>
@@ -110,7 +147,7 @@ export default function Page() {
                             <form action="#" className={styles.forgot_password_form}>
                                 <label htmlFor="email">Email</label>
                                 <input type="email" placeholder="email" name="email"
-                                       pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" required/>
+                                       pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" required/>
                                 <div className={styles.button_block}>
                                     <input type="submit" value="Odzyskaj Konto" className={styles.login_button}/>
                                 </div>

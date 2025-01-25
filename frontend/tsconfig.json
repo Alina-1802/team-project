@@ -29,6 +29,8 @@
       "@assets/*": ["assets/*"],
       "@components/*": ["components/*"],
       "@type/*": ["type/*"],
+      "@helpers/*": ["helpers/*"],
+      "@hooks/*": ["hooks/*"],
     }
   },
   "exclude": [

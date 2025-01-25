@@ -1,7 +1,7 @@
 import style from './style.module.css';
 import {useData} from "vike-react/useData";
 import {ChangeEvent, useRef, useState} from "react";
-import {Data} from "pages/index/+data";
+import {Data} from "pages/index/+data.client.ts";
 
 export function Example() {
     const data = useData<Data>();
@@ -19,7 +19,7 @@ export function Example() {
         <div className={style.kotek}>
             <p>example component</p>
             <input type="text" name={'test'} onChange={onChange} ref={input}/>
-            <p>{data?.example}</p>
+            <p>{data?.token}</p>
             <p>input value: {value}</p>
         </div>
     )
