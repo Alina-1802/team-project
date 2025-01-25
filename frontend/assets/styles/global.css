@@ -6,9 +6,8 @@
 @custom-media --xs (max-width: 30rem); /* 480px */
 
 :root {
-  font-family: 'Lucas', sans-serif;
   font-size: 16px;
-  color: #000;
+  color: var(--white);
   line-height: 1.5;
   font-weight: 400;
 
@@ -17,9 +16,22 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
-  & * {
-    box-sizing: border-box;
-  }
+  --primary: #863BC0;
+  --secondary: #BF8AE8;
+  --white: #fefefa;
+  --red: #fe004a;
+}
+
+* {
+  box-sizing: border-box;
+  font-family: Bahnschrift, sans-serif;
+}
+
+body {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  height: 100%;
 }
 
 a, a:visited, a:hover, a:active {
@@ -40,4 +52,25 @@ button {
   padding: 0;
   font-size: 1rem;
   font-family: inherit;
+  color: inherit;
+}
+
+.main_container {
+  position: relative;
+  background-image: url('../img/main/background.png');
+  width: 100%;
+  min-height: 100vh;
+  margin: unset;
+  background-color: #7e6969d6;
+  background-clip: border-box;
+  background-origin: border-box;
+  background-size: unset;
+  background-position: center;
+  background-blend-mode: multiply;
+  z-index: 1;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
 }

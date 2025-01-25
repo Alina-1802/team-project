@@ -9,7 +9,7 @@ export default {
   // https://vike.dev/Layout
   Layout: LayoutDefault,
   // https://vike.dev/head-tags
-  title: "My Vike App",
+  title: "AIQuizzHub",
   description: "Demo showcasing Vike",
 
   extends: vikeReact,

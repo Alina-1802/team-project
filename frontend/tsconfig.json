@@ -21,9 +21,15 @@
       "vite/client",
       "vike-react"
     ],
+    "allowImportingTsExtensions": true,
     "jsx": "preserve",
     "jsxImportSource": "react",
     "baseUrl": "./",
+    "paths": {
+      "@assets/*": ["assets/*"],
+      "@components/*": ["components/*"],
+      "@type/*": ["type/*"],
+    }
   },
   "exclude": [
     "dist"
