@@ -71,6 +71,14 @@ button {
 
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
+
+  &.center {
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  &:not(.center) > main {
+    padding: 2rem;
+    flex-grow: 1;
+  }
 }

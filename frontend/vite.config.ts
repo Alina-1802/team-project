@@ -8,7 +8,9 @@ import path from 'path'
 
 export default defineConfig({
     plugins: [
-        vike({prerender: true}),
+        vike({
+            prerender: true,
+        }),
         react({})
     ],
     css: {
@@ -37,6 +39,7 @@ export default defineConfig({
             '@type': path.resolve(__dirname, 'type'),
             '@helpers': path.resolve(__dirname, 'helpers'),
             '@hooks': path.resolve(__dirname, 'hooks'),
+            '@pages': path.resolve(__dirname, 'pages'),
         },
     },
 });

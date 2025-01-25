@@ -24,6 +24,7 @@ export default function Nav() {
             <ul className={styles.main_nav_list}>
                 <li className={styles.main_nav_item}><a href={Routes.INDEX}>Home</a></li>
                 <li className={styles.main_nav_item}><a href={Routes.LOGOWANIE}>Logowanie</a></li>
+                <li className={styles.main_nav_item}><a href={Routes.LEKCJA}>Lekcje</a></li>
                 <li className={styles.main_nav_item}><a href={Routes.O_NAS}>O nas</a></li>
             </ul>
         </nav>
