@@ -1,2 +1,11 @@
 import LayoutDefault from "@components/LayoutDefault.tsx";
-export default LayoutDefault;
+import {ReactNode} from "react";
+import Routes from "@type/Routes.ts";
+
+export default function Layout({children}: { children: ReactNode }) {
+    return (
+        <LayoutDefault activeRoute={Routes.LOGOWANIE}>
+            {children}
+        </LayoutDefault>
+    )
+}

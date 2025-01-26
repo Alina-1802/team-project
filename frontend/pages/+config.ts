@@ -7,10 +7,11 @@ import {AppProvider} from "@components/app-provider/AppProvider.tsx";
 
 export default {
   // https://vike.dev/Layout
-  Layout: AppProvider,
+  // Layout: AppProvider,
+  Wrapper: AppProvider,
   // https://vike.dev/head-tags
   title: "AIQuizzHub",
-  description: "Demo showcasing Vike",
+  description: "Cudowny kurs o sztucznej inteligencji",
 
   extends: vikeReact,
 } satisfies Config;

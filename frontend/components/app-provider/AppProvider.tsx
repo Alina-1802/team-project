@@ -14,10 +14,10 @@ export function AppProvider({children}: { children: ReactNode }) {
             _setState(prev => typeof update === 'function' ? update(prev) : update),
         setValue: <K extends keyof ContextState>(key: K, value: ContextState[K]) =>
             _setState(prev => ({...prev, [key]: value})),
-        getValue: <K extends keyof ContextState>(key: K): ContextState[K] => _state?.[key],
+        // getValue: <K extends keyof ContextState>(key: K): ContextState[K] => _state?.[key],
         reset: () => _setState(defaultState)
     }), [_setState])
-
+    // console.log('state',_state)
 
     useEffect(() => {
         if (typeof window !== 'undefined') {
@@ -38,7 +38,7 @@ export function AppProvider({children}: { children: ReactNode }) {
     }, [_state]);
 
     return (
-        <AppContext.Provider value={{state: _state, ...functions}}>
+        <AppContext.Provider value={{state: _state, ...functions, getValue}}>
             <ClearStorageHandler>
                 <QueryClientProvider client={queryClient}>
                     {children}
@@ -51,10 +51,16 @@ export function AppProvider({children}: { children: ReactNode }) {
 function ClearStorageHandler({children}: { children: ReactNode }) {
     const {reset} = useAppContext()
     useEffect(() => {
+        console.log('hash', window.location.hash)
         if (typeof window !== 'undefined' && window.location.hash === '#clearStorage') {
             reset()
             window.location.hash = '';
         }
     }, [globalThis?.window?.location?.hash]);
     return children
+}
+
+function getValue<K extends keyof ContextState>(key: K): ContextState[K] {
+    const {state} = useAppContext();
+    return useMemo(() => state?.[key], [state?.[key]]);
 }

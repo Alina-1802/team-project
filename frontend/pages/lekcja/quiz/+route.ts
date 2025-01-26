@@ -1,0 +1,1 @@
+export default '/lekcja/@id/quiz/@step';

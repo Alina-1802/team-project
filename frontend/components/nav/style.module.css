@@ -28,8 +28,15 @@
   font-size: large;
   font-weight: bold;
 
-  &:hover {
+  a {
+    text-decoration: none;
+  }
+
+  &.active {
     color: var(--primary);
+  }
+  &:hover {
+    color: var(--secondary);
     text-decoration: none;
     cursor: pointer;
   }

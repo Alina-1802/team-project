@@ -1,4 +1,4 @@
-import spisLekcji from "@pages/lekcja/treści/spisLekcji.ts";
+import spisLekcji from "@assets/spisLekcji.ts";
 
 
 export default function Page() {
