@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Focus na przycisk i animacja na innym div</title>
+  <style>
+    /* Ukrywamy domyślne obramowanie focus */
+    button:focus {
+      outline: none;
+    }
+
+    /* Stylowanie przycisku */
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+
+    /* Docelowy div - początkowy stan */
+    .box {
+      width: 100px;
+      height: 100px;
+      background-color: lightgray;
+      margin-top: 10px;
+      transition: all 0.5s ease; /* Animacja */
+    }
+
+    /* Styl aktywowany po kliknięciu przycisku */
+    button:focus ~ .box {
+      background-color: lightblue;
+      transform: scale(1.3);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    }
+  </style>
+</head>
+<body>
+<button>Kliknij mnie</button>
+<div class="box"></div>
+</body>
+</html>

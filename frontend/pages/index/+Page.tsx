@@ -1,15 +1,17 @@
-import React from "react";
-import {Example} from "/components/example/Example";
+import styles from "./style.module.css";
+import smile from "@assets/img/main/brain_smille.png";
+import Routes from "@type/Routes.ts";
 
 export default function Page() {
-  return (
-    <>
-      <h1>My Vike app</h1>
-      This page is:
-      <ul>
-        <li>Rendered to HTML.</li>
-          <Example/>
-      </ul>
-    </>
-  );
+    return (
+        <>
+            <main className={styles.container}>
+                <label className={styles.title}>AIQuizzHub nauka przez zabawę dla dzieci i młodzieży</label>
+                <label className={styles.sub_title}>Zaprasza do rozpoczęcia wspólnej przygody</label>
+                <img src={smile} alt=""/>
+                <label className={styles.join_to_us}>Dołącz już dziś</label>
+                <a href={Routes.LOGOWANIE} className={styles.registerButton}>Rejestracja -&gt;</a>
+            </main>
+        </>
+    );
 }

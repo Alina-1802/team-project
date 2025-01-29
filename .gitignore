@@ -80,3 +80,4 @@ crashlytics-build.properties
 /.idea/*
 /backend/target
 /backend/Cargo.lock
+.idea

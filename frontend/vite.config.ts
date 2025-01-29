@@ -4,10 +4,13 @@ import vike from "vike/plugin";
 import postcssPresetEnv from 'postcss-preset-env';
 import postcssGlobalData from '@csstools/postcss-global-data'
 import postcssCustomMedia from 'postcss-custom-media';
+import path from 'path'
 
 export default defineConfig({
     plugins: [
-        vike({prerender: true}),
+        vike({
+            prerender: true,
+        }),
         react({})
     ],
     css: {
@@ -28,5 +31,15 @@ export default defineConfig({
                 postcssCustomMedia(),
             ],
         }
+    },
+    resolve: {
+        alias: {
+            '@assets': path.resolve(__dirname, 'assets'),
+            '@components': path.resolve(__dirname, 'components'),
+            '@type': path.resolve(__dirname, 'type'),
+            '@helpers': path.resolve(__dirname, 'helpers'),
+            '@hooks': path.resolve(__dirname, 'hooks'),
+            '@pages': path.resolve(__dirname, 'pages'),
+        },
     },
 });
