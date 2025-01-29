@@ -1,5 +1,3 @@
-mod auth;
-
 use std::sync::Arc;
 use std::usize::MAX;
 use axum::{extract::{FromRequestParts, Path, State, Request}, http::StatusCode, routing::{get, patch}, Json, Router, Extension, middleware};
