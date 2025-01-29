@@ -22,4 +22,7 @@ jsonwebtoken = "9.3.0"
 validator = { version = "0.20.0", features = ["derive"] }
 validator_derive = "0.20.0"
 async-trait = "0.1.85"
-axum-valid = "0.21.0"
+axum-valid = "0.22.0"
+headers = "0.4.0"
+axum-extra = { version = "0.10.0", features = ["typed-header"] }
+
