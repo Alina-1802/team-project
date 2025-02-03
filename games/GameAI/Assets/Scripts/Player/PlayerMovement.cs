@@ -94,4 +94,9 @@ public class PlayerMovement : MonoBehaviour
         velocity.y += gravity * Time.deltaTime * fallingSpeed;
         characterController.Move(velocity * Time.deltaTime);
     }
+
+    public void SetPlayerPosition(Vector3 newPosition)
+    {
+        transform.position = newPosition;
+    }
 }

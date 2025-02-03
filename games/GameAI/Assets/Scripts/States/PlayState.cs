@@ -10,6 +10,8 @@ public class PlayState : BaseState
     }
     public override void UpdateState(GameController gameController)
     {
+        Debug.Log("play stat");
+
         if(gameController.gameSceneController == null)
         {
             gameController.SetGameSceneController();
@@ -17,6 +19,12 @@ public class PlayState : BaseState
         else
         {
             gameController.gameSceneController.Player.UpdatePlayer();
+
+
+            if(gameController.gameSceneController.currentQuest != null)
+            {
+                gameController.SwitchState(gameController.questState);
+            }
         }
     }
     public override void ExitState(GameController gameController)

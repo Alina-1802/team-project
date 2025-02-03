@@ -4,12 +4,17 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField] PlayerMovement playerMovement;
+    public PlayerMovement playerMovement;
     [SerializeField] PlayerAnimation playerAnimation;
 
     public void UpdatePlayer()
     {
         playerMovement.MovePlayer();
         playerAnimation.PlayPlayerAnimations(playerMovement.IsWalking, playerMovement.IsSprinting, playerMovement.IsJumping, playerMovement.IsDoubleJumping);
+    }
+
+    public void ResetPlayer()
+    {
+        playerAnimation.PlayPlayerAnimations(false, false, false, false);
     }
 }

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameController : MonoBehaviour
 {
@@ -10,7 +11,7 @@ public class GameController : MonoBehaviour
 
     public PlayState playState = new PlayState();
     public MainMenuState mainMenuState = new MainMenuState();
-    public ChallengeState challengeState = new ChallengeState();
+    public QuestState questState = new QuestState();
 
     public GameSceneController gameSceneController;
 
@@ -31,7 +32,14 @@ public class GameController : MonoBehaviour
 
     void Start()
     {
-        currentState = mainMenuState;
+        if(SceneManager.GetActiveScene().name == "MainMenu")
+        {
+            currentState = mainMenuState;
+        }
+        else if(SceneManager.GetActiveScene().name == "Game")
+        {
+            currentState = playState;
+        }
         currentState.EnterState(this);
     }
 
@@ -42,7 +50,11 @@ public class GameController : MonoBehaviour
 
     public void SwitchState(BaseState newState)
     {
-        currentState.ExitState(this);
+        if(currentState != null)
+        {
+            currentState.ExitState(this);
+        }
+
         currentState = newState;
         currentState.EnterState(this);
     }
