@@ -3,7 +3,7 @@ use std::usize::MAX;
 use axum::{extract::{FromRequestParts, Path, State, Request}, http::StatusCode, routing::{get, patch}, Json, Router, Extension, middleware};
 use axum::routing::{connect, post, Route};
 use serde::{Serialize, Deserialize};
-use serde_json::{json, to_string, Value};
+use serde_json::{json, to_string, to_string_pretty, Value};
 use argon2::{Argon2, password_hash::{SaltString, PasswordHasher, PasswordVerifier}, PasswordHash};
 use async_trait::async_trait;
 use dotenvy::dotenv;
@@ -17,17 +17,22 @@ use axum::http::header;
 use axum::http::request::Parts;
 use axum::middleware::Next;
 use axum::response::Response;
-use headers::{Authorization, HeaderMapExt};
+use headers::{Authorization, Date, HeaderMapExt};
 use headers::authorization::Bearer;
-use validator::{Validate, ValidationErrors};
+use validator::{Validate};
 use axum_extra::TypedHeader;
-
+use tower_http::cors::{CorsLayer, Any};
+use chrono::{NaiveDateTime};
 
 
 #[tokio::main]
 async fn main() {
     dotenv().ok();
 
+    let cors = CorsLayer::new()
+        .allow_origin(Any)
+        .allow_methods(Any)
+        .allow_headers(Any);
     let server_address = std::env::var("SERVER_ADDRESS").unwrap_or("127.0.0.1:3000".to_owned());
     let database_url = std::env::var("DATABASE_URL").expect("Nie znalezionowo bazy danych");
     let db_pool = SqlitePoolOptions::new()
@@ -42,9 +47,12 @@ async fn main() {
     let app = Router::new()
         .route("/register", post(register_user))
         .route("/login", post(login_user))
-        // .route("/update-account", patch(update_user::<Body>)/*.route_layer(middleware::from_fn(auth_middleware::<Body>))*/)
+        .route("/update-account", post(update_user).route_layer(middleware::from_fn(auth_middleware::<Body>)))
         .route("/get-user", get(get_user).route_layer(middleware::from_fn(auth_middleware::<Body>)))
-        .layer(Extension(Arc::new(db_pool)));
+        .route("/store-quiz-result", post(store_quiz_result).route_layer(middleware::from_fn(auth_middleware::<Body>)))
+        // .route("/get-quiz-results", get(get_quiz_results).route_layer(middleware::from_fn(auth_middleware::<Body>)))
+        .layer(Extension(Arc::new(db_pool)))
+        .layer(cors);
 
 
     axum::serve(listener,app).await.expect("Error serving application")
@@ -59,11 +67,11 @@ struct RegisterRequest {
     password: String,
 }
 
-#[derive(Serialize)]
-struct ApiResponse {
+#[derive(Deserialize,Serialize)]
+struct ApiResponse <T> {
     success: bool,
     message: String,
-    data: Vec<Value>
+    data: Vec<T>
 }
 #[derive(Deserialize,Validate)]
 struct LoginRequest {
@@ -97,13 +105,27 @@ struct GetUserDataResponse {
     pub last_name: String,
     pub email: String,
 }
-
+#[derive(Debug, Serialize, Deserialize)]
+struct QuizStoreResultRequest {
+    pub quiz_id: Option<String>,
+    pub scored_points: Option<String>,
+}
+#[derive(Debug, Serialize, Deserialize)]
+struct QuizGetResultRequest {
+    pub quiz_id: String,
+    pub scored_points: String,
+}
+#[derive(Serialize)]
+struct ScoredPoints {
+    scored_points: i64,
+    created_at: Option<NaiveDateTime>
+}
 async fn register_user (
     Extension(pool): Extension<Arc<SqlitePool>>,
     Json(payload): Json<RegisterRequest>,
 ) -> impl IntoResponse  {
     if let Err(error) = validate_register_request(&payload) {
-        let response : ApiResponse = ApiResponse {
+        let response : ApiResponse::<Vec<()>> = ApiResponse {
             success: false,
             message: format!("Validation error: {}", error),
             data: Vec::new(),
@@ -221,16 +243,22 @@ pub async fn auth_middleware<B>(
         token,
         &decoding_key,
         &Validation::new(Algorithm::HS256),
-    ).map_err(|_| (StatusCode::UNAUTHORIZED, "Invalid or expired token123"))?;
+    ).map_err(|_| (StatusCode::UNAUTHORIZED, "Invalid or expired token"))?;
 
      req.extensions_mut().insert(token_data.claims.sub);
 
     Ok(next.run(req).await)
 }
-pub async fn update_user<Body>(
+pub async fn update_user(
     Extension(pool): Extension<Arc<SqlitePool>>,
+    Extension(user_email): Extension<String>,
     Json(payload): Json<UpdateUserRequest>,
 ) -> impl IntoResponse {
+    let response: ApiResponse::<Vec<()>>  = ApiResponse {
+        success: false,
+        message: "No fields to update".to_string(),
+        data: Vec::new(),
+    };
 
     if payload.first_name.is_none() && payload.last_name.is_none() && payload.username.is_none() {
         let response = ApiResponse {
@@ -238,33 +266,32 @@ pub async fn update_user<Body>(
             message: "No fields to update".to_string(),
             data: Vec::new(),
         };
-        // return (StatusCode::BAD_REQUEST, Json(response));
+         return (StatusCode::BAD_REQUEST, Json(response));
     }
 
     let mut query_string = String::from("UPDATE users SET ");
     let mut params: Vec<String> = Vec::new();
 
-    // if let Some(first_name) = &payload.first_name {
-    //     query_string.push_str("first_name = ?, ");
-    //     params.push(first_name.clone());
-    // }
-    //
-    // if let Some(last_name) = &payload.last_name {
-    //     query_string.push_str("last_name = ?, ");
-    //     params.push(last_name.clone());
-    // }
-    //
-    // if let Some(username) = &payload.username {
-    //     query_string.push_str("username = ?, ");
-    //     params.push(username.clone());
-    // }
+    if let Some(first_name) = &payload.first_name {
+        query_string.push_str("first_name = ?, ");
+        params.push(first_name.clone());
+    }
+
+    if let Some(last_name) = &payload.last_name {
+        query_string.push_str("last_name = ?, ");
+        params.push(last_name.clone());
+    }
+
+    if let Some(username) = &payload.username {
+        query_string.push_str("username = ?, ");
+        params.push(username.clone());
+    }
 
     query_string.pop();
     query_string.pop();
 
     query_string.push_str(" WHERE email = ?;");
-    let  email = "123".to_string()/*req.extensions().get::<String>().expect("REASON").to_string()*/;
-    params.push(email);
+    params.push(user_email);
 
 
     let result = sqlx::query(&query_string)
@@ -277,7 +304,7 @@ pub async fn update_user<Body>(
 
     match result {
         Ok(_) => {
-            let response : ApiResponse = ApiResponse {
+            let response : ApiResponse::<Vec<()>> = ApiResponse {
                 success: true,
                 message: "User updated successfully".to_string(),
                 data: Vec::new(),
@@ -336,3 +363,155 @@ pub async fn get_user(
         }
     }
 }
+pub async  fn store_quiz_result(
+    Extension(pool): Extension<Arc<SqlitePool>>,
+    Extension(user_email): Extension<String>,
+    Json(payload): Json <QuizStoreResultRequest>
+) -> impl IntoResponse   {
+
+    if payload.quiz_id.is_none() || payload.scored_points.is_none() {
+        let response = ApiResponse {
+            success: false,
+            message: "Incomplete payload ".to_string(),
+            data: Vec::new(),
+        };
+        return (StatusCode::BAD_REQUEST, Json(response));
+    }
+
+    let result = query!("SELECT user_id FROM users WHERE email = ?", user_email)
+        .fetch_one(&*pool)
+        .await;
+
+    let user_id = match result {
+        Ok(record) => match record.user_id {
+            Some(id) => id,
+            None => {
+                let response = ApiResponse {
+                    success: false,
+                    message: "User ID not found for this email".to_string(),
+                    data: Vec::new(),
+                };
+                return (StatusCode::NOT_FOUND, Json(response));
+            }
+        },
+        Err(err) => {
+            let response : ApiResponse::<Vec<()>> = ApiResponse {
+                success: false,
+                message: format!("User not found: {:?}", err),
+                data: Vec::new(),
+            };
+            return (StatusCode::INTERNAL_SERVER_ERROR, Json(response));
+        }
+    };
+    let result = query!(
+        "INSERT INTO quiz_result (quiz_id,user_id, scored_points,created_at) VALUES (?, ?, ?,datetime('now'))",
+        payload.quiz_id,
+        user_id,
+        payload.scored_points
+    )
+        .execute(&*pool)
+        .await;
+
+    match result {
+        Ok(_) => {
+            let response = ApiResponse {
+                success: true,
+                message: "Result was successfully added".to_string(),
+                data: Vec::new(),
+            };
+            (StatusCode::CREATED, Json(response))
+        }
+        Err(err) => {
+            let response = ApiResponse {
+                success: false,
+                message: format!("Failed to add result: {:?}", err),
+                data: Vec::new(),
+            };
+            (StatusCode::INTERNAL_SERVER_ERROR, Json(response))
+        }
+    }
+
+}
+// pub async  fn get_quiz_results(
+//     Extension(pool): Extension<Arc<SqlitePool>>,
+//     Extension(user_email): Extension<String>,
+//     Json(payload): Json <QuizStoreResultRequest>
+// ) -> Result<(StatusCode,String),(StatusCode,String)>
+// /*-> impl IntoResponse */  {
+//
+//     if payload.quiz_id.is_none() {
+//         let response = ApiResponse {
+//             success: false,
+//             message: "Incomplete payload ".to_string(),
+//             data: Vec::new(),
+//         };
+//         // return (StatusCode::BAD_REQUEST, Json(response));
+//     }
+//
+//     let result = query!("SELECT user_id FROM users WHERE email = ?", user_email)
+//         .fetch_one(&*pool)
+//         .await;
+//
+//     let user_id = match result {
+//         Ok(record) => match record.user_id {
+//             Some(id) => id,
+//             None => {
+//                 let response = ApiResponse {
+//                     success: false,
+//                     message: "User ID not found for this email".to_string(),
+//                     data: Vec::new(),
+//                 };
+//                 return (StatusCode::NOT_FOUND, Json(response));
+//             }
+//         },
+//         Err(err) => {
+//             let response : ApiResponse::<Vec<()>> = ApiResponse {
+//                 success: false,
+//                 message: format!("User not found: {:?}", err),
+//                 data: Vec::new(),
+//             };
+//             return (StatusCode::INTERNAL_SERVER_ERROR, Json(response));
+//         }
+//     };
+//
+//     let quiz_results = query!(
+//     "SELECT scored_points, created_at FROM quiz_result WHERE user_id = ? AND quiz_id = ?",
+//     user_id,
+//     payload.quiz_id
+//     )
+//         .fetch_all(&*pool)
+//         .await;
+//
+//     return match quiz_results {
+//         Ok(results) => {
+//             // let response_data: Vec<ScoredPoints> = results
+//             //     .into_iter()
+//             //     .map(|record| ScoredPoints {
+//             //         scored_points: record.scored_points,
+//             //         created_at: record.created_at,
+//             //     })
+//             //     .collect();
+//
+//             Ok((StatusCode::OK, json!({
+//                 "success": true,
+//                 "message": "Pomyślnie pobrano wyniki quizu".to_string(),
+//                 "data": results
+//             }
+//             ).to_string()))
+//         }
+//         Err(err) => {
+//             let response: ApiResponse::<Vec<()>> = ApiResponse {
+//                 success: false,
+//                 message: format!("Błąd zapytania do bazy danych: {:?}", err),
+//                 data: Vec::new(),
+//             };
+//             Ok((StatusCode::OK, json!({
+//                 "success": true,
+//                 "message": "Pomyślnie pobrano wyniki quizu".to_string(),
+//                 "data": ""
+//             }
+//             ).to_string()))
+//         }
+//     }
+// }
+
