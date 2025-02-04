@@ -4,7 +4,7 @@ import {ApiException} from "@type/ApiException.ts";
 import {AxiosResponse} from "axios";
 
 export type LoginPayload = {
-    username: string,
+    email: string,
     password: string,
 }
 

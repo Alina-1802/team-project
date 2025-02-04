@@ -5,7 +5,7 @@ import {AxiosResponse} from "axios";
 import {ApiResponse} from "@type/ApiResponse.ts";
 
 export type RegisterPayload = {
-    username: string,
+    email: string,
     password: string,
 }
 

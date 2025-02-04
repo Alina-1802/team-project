@@ -90,6 +90,13 @@ input[type="email"]:valid:not(:placeholder-shown) {
   color: var(--primary);
 }
 
+.login_button, .register_button {
+  &:disabled {
+    cursor: default;
+    border: 2px solid red;
+  }
+}
+
 .background_box_login {
   display: flex;
   position: relative;

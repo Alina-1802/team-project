@@ -6,7 +6,7 @@ const quiz1 = {
     title: "Quiz wprowadzający",
     id: 1,
     description: "Pierwszy z quizów sprawdza Twoją wiedzę z pierwszej lekcji i pokazuje, jak wyglądają quizy w naszej aplikacji." +
-        "<br/>Możesz wykonywać go wiele razy, aby poprawić swój wynik, ale jeśli nie chcesz, to lekcja zostanie oznaczona jako ukończona po pierwszym podejściu.",
+        "<br/>Możesz wykonywać go wiele razy, aby poprawić swój wynik, ale jeśli nie chcesz, to lekcja zostanie oznaczona jako ukończona po pierwszym podejściu. (Oczywiście o ile jesteś zalogowany)",
     questions: [
         {
             id: 1,
@@ -42,6 +42,7 @@ export default [
         key: "druga",
         title: "Lekcja druga",
         component: Druga,
+        // game:
     },
 ].map(x => {
     const lessonUrl = `${Routes.LEKCJA}/${x.key}`

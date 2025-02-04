@@ -2,6 +2,7 @@
 const Routes = {
     INDEX: "/",
     LOGOWANIE: "/logowanie",
+    WYLOGOWANIE: "/wylogowanie",
     O_NAS: "/o-nas",
     LEKCJA: "/lekcja",
     // to może przydał by się inny zapis, ale routy robimy tutaj łączeniem tekstów, także tak najprościej xd
