@@ -16,7 +16,7 @@ export default function Page() {
         <main className={styles.container}>
             <p><a href={Routes.LEKCJA}>Powrót do listy lekcji</a></p>
             to jest gra lekcji o id: {lesson.key}
-            <GameLoader path={lesson.game.path} />
+            <GameLoader path={lesson.game.path}/>
         </main>
     )
 }

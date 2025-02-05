@@ -7,34 +7,40 @@ import useAppContext from "@hooks/useAppContext.ts";
 import useIsLogged from "@hooks/useIsLogged.ts";
 import {navigate} from "vike/client/router";
 import Routes from "@type/Routes.ts";
+import {useIsClient} from "@hooks/useIsClient.ts";
 
 export default function Page() {
     const isLogged = useIsLogged()
+    const isClient = useIsClient()
     const {setValue} = useAppContext()
     const [isRight, setIsRight] = useState(false)
     const [loginActive, setLoginActive] = useState(true)
     const [registerActive, setRegisterActive] = useState(false)
     const [forgotActive, setForgotActive] = useState(false)
 
-    const [error, setError] = useState('')
-    const [message, setMessage] = useState('')
+    const [message, setMessage] = useState<MessageType | null>(null)
 
     const onSuccessLogin = (result: LoginResponse, payload: LoginPayload) => {
-        console.log('login success', result);
+        console.log('login success', result)
+        if (!result?.token) {
+            setMessage({type: 'error', message: 'Nieprawidłowe dane'})
+            return
+        }
         setValue('email', payload.email)
         setValue('token', result.token)
         navigate(Routes.LEKCJA)
     }
     const onErrorLogin = (data: LoginException) => {
-        console.log('login error', data);
-        // setError(data.message)
+        console.log('login error', data)
+        setMessage({type: 'error', message: 'Nieprawidłowe dane'})
     }
     const onSuccessRegister = (result: RegisterResponse, payload: RegisterPayload) => {
-        console.log('register success', result, payload);
+        console.log('register success', result, payload)
+        setMessage({type: 'success', message: 'Zarejestrowano pomyślnie'})
     }
     const onErrorRegister = (data: RegisterException) => {
-        console.log('register error', data);
-        // setError(data.message)
+        console.log('register error', data.response.message)
+        setMessage({type: 'error', message: 'Wystąpił błąd, spróbuj ponownie później'})
     }
 
     const loginMutation = useLoginMutation({onSuccess: onSuccessLogin, onError: onErrorLogin});
@@ -60,28 +66,28 @@ export default function Page() {
         setIsRight(true);
         setLoginActive(prev => !prev);
         setRegisterActive(prev => !prev);
-        setError('')
+        setMessage(null)
     }
     const onClickForgotPassword = () => {
         setIsRight(true);
         setLoginActive(prev => !prev);
         setForgotActive(prev => !prev);
-        setError('')
+        setMessage(null)
     }
     const onClickChangePanelRegisterBack = () => {
         setIsRight(false);
         setLoginActive(prev => !prev);
         setRegisterActive(false);
         setForgotActive(false);
-        setError('')
+        setMessage(null)
     }
 
-    const emailRegex = "/^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[a-zA-Z]{2,}$/gm"
+    const emailRegex = "^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[a-zA-Z]{2,}$"
 
     const loginDisabled = loginMutation.isSuccess
     const registerDisabled = registerMutation.isSuccess
 
-    if (isLogged) {
+    if (isLogged && isClient) {
         return (
             <main style={{textAlign: 'center'}}>
                 a co tu jeszcze robisz, zalogowany jesteś<br/>
@@ -107,8 +113,8 @@ export default function Page() {
                                 <input type="button" value="Zarestruj sie" onClick={onClickChangePanelRegister}
                                        className={styles.register_button}/>
                             </div>
+                            <Message message={message}/>
                         </form>
-
                     </div>
                     <div className={clsx(styles.register, registerActive && styles.active)}>
                         <h1>Zarejestruj się</h1>
@@ -169,7 +175,7 @@ export default function Page() {
                                 <input type="submit" value="Zarestruj sie" className={styles.login_button}
                                        disabled={registerDisabled}/>
                             </div>
-                            <Error error={error}/>
+                            <Message message={message}/>
                         </form>
                     </div>
                     <div className={clsx(styles.forgot_password, forgotActive && styles.active)}>
@@ -184,7 +190,7 @@ export default function Page() {
                             <div className={styles.button_block}>
                                 <input type="submit" value="Odzyskaj Konto" className={styles.login_button}/>
                             </div>
-                            <Error error={error}/>
+                            <Message message={message}/>
                         </form>
 
                     </div>
@@ -203,13 +209,19 @@ export default function Page() {
     );
 }
 
-function Error({error}: { error?: string }) {
+type MessageType = {
+    type: 'success' | 'error',
+    message: string
+}
 
-    if (!error) return null
+function Message({message}: { message: MessageType | null }) {
+
+    if (!message) return null
 
     return (
-        <div className={clsx(styles.button_block, styles.error)}>
-            i cały misterny plan w pizdu: {error}
+        <div
+            className={clsx(styles.button_block, message.type === 'error' && styles.error, message.type === 'success' && styles.success)}>
+            i cały misterny plan w pizdu: {message.message}
         </div>
     )
 }

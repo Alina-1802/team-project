@@ -10,6 +10,7 @@ import ClientOnly from "@components/ClientOnly.tsx";
 export default function Nav({activeRoute}: { activeRoute?: string }) {
     const {getValue} = useAppContext()
     const email = getValue('email')
+    const token = getValue('token')
     const links = useNavLinks()
 
     return (
@@ -23,7 +24,7 @@ export default function Nav({activeRoute}: { activeRoute?: string }) {
                 </label>
                 <label className={clsx(styles.icon, styles.right_icon)}>
                     <ClientOnly>
-                        {email && (
+                        {email && token && (
                             <>
                                 <i className="fa-solid fa-envelope"></i> {email}
                             </>

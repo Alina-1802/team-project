@@ -21,7 +21,7 @@ export default function useRegisterMutation(options?: Options) {
         mutationFn: async (payload) => {
             const {data}: AxiosResponse<ApiResponse<RegisterResponse>> = await axios.post('/register', payload)
 
-            if(data.success) {
+            if (data.success) {
                 return data.data
             }
 
