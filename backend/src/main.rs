@@ -195,11 +195,8 @@ pub async fn login_user(
                 )
                     .unwrap();
 
-                let mut tokens: Vec<HashMap<String, String>> = Vec::new();
-                let mut token_map = HashMap::new();
-                token_map.insert("token".to_string(), token);
-
-                tokens.push(token_map);
+                let mut tokens: HashMap<String, String> = HashMap::new();
+                tokens.insert("token".to_string(), token);
                 let response = ApiResponse {
                     success: true,
                     message: "Successful login".to_string(),
@@ -207,19 +204,20 @@ pub async fn login_user(
                 };
                 (StatusCode::OK, Json(response))
             } else {
+                // let tokens: HashMap<String, String> = ;
                 let response = ApiResponse {
                     success: false,
                     message: "Invalid username or password".to_string(),
-                    data: Vec::new(),
+                    data: HashMap::new(),
                 };
                 (StatusCode::UNAUTHORIZED, Json(response))
             }
         }
         Err(_) => {
-            let response = ApiResponse {
+            let response =  ApiResponse {
                 success: false,
                 message: "Invalid username or password".to_string(),
-                data: Vec::new(),
+                data: HashMap::new(),
             };
             (StatusCode::UNAUTHORIZED, Json(response))
         }
@@ -277,17 +275,12 @@ pub async fn update_user(
     Extension(user_email): Extension<String>,
     Json(payload): Json<UpdateUserRequest>,
 ) -> impl IntoResponse {
-    let response: ApiResponse::<Vec<()>>  = ApiResponse {
-        success: false,
-        message: "No fields to update".to_string(),
-        data: Vec::new(),
-    };
-
+    let empty_hash_map: HashMap<String, String> = HashMap::new();
     if payload.first_name.is_none() && payload.last_name.is_none() && payload.username.is_none() {
         let response = ApiResponse {
             success: false,
             message: "No fields to update".to_string(),
-            data: Vec::new(),
+            data: empty_hash_map,
         };
          return (StatusCode::BAD_REQUEST, Json(response));
     }
@@ -327,20 +320,20 @@ pub async fn update_user(
 
     match result {
         Ok(_) => {
-            let response : ApiResponse::<Vec<()>> = ApiResponse {
+            let response = ApiResponse {
                 success: true,
                 message: "User updated successfully".to_string(),
-                data: Vec::new(),
+                data: empty_hash_map,
             };
-            (StatusCode::OK, Json(response))
+           return (StatusCode::OK, Json(response))
         }
         Err(err) => {
             let response = ApiResponse {
                 success: false,
                 message: format!("Failed to update user: {:?}", err),
-                data: Vec::new(),
+                data: empty_hash_map,
             };
-            (StatusCode::INTERNAL_SERVER_ERROR, Json(response))
+           return (StatusCode::INTERNAL_SERVER_ERROR, Json(response))
         }
     }
 }
@@ -349,8 +342,8 @@ pub async fn get_user(
     TypedHeader(authorization): TypedHeader<Authorization<headers::authorization::Bearer>>,
     mut req: Request<Body>,
 ) -> impl IntoResponse {
+    let empty_hash_map: HashMap<String, String> = HashMap::new();
     let email = req.extensions().get::<String>();
-
     let user = query!(
         "SELECT username,first_name,last_name,email FROM users WHERE email = ?",
         email
@@ -360,14 +353,19 @@ pub async fn get_user(
 
     match user {
         Ok(user) => {
-            let user_data: Vec<Value> = vec![
-                serde_json::json!({
-                    "username": user.username,
-                    "first_name": user.first_name,
-                    "last_name": user.last_name,
-                    "email": user.email
-                })
-            ];
+            let mut user_data: HashMap<String, String> = HashMap::new();
+            user_data.insert("username".to_string(), user.username.unwrap_or("Anonim".to_string()));
+            user_data.insert("first_name".to_string(), user.first_name.unwrap_or("Anonim".to_string()));
+            user_data.insert("last_name".to_string(), user.last_name.unwrap_or("Anonim".to_string()));
+            user_data.insert("email".to_string(), user.email);
+            // let user_data: HashMap<String,String> = new Has ![
+            //     serde_json::json!({
+            //         "username": user.username,
+            //         "first_name": user.first_name,
+            //         "last_name": user.last_name,
+            //         "email": user.email
+            //     })
+            // ];
             let response = ApiResponse {
                 success: true,
                 message: "User found".to_string(),
@@ -380,7 +378,7 @@ pub async fn get_user(
             let response = ApiResponse {
                 success: false,
                 message: format!("User not found: {:?}", err),
-                data: Vec::new(),
+                data: empty_hash_map,
             };
             (StatusCode::INTERNAL_SERVER_ERROR, Json(response))
         }
@@ -391,12 +389,12 @@ pub async  fn store_quiz_result(
     Extension(user_email): Extension<String>,
     Json(payload): Json <QuizStoreResultRequest>
 ) -> impl IntoResponse   {
-
+    let empty_hash_map: HashMap<String, String> = HashMap::new();
     if payload.quiz_id.is_none() || payload.scored_points.is_none() {
         let response = ApiResponse {
             success: false,
             message: "Incomplete payload ".to_string(),
-            data: Vec::new(),
+            data: empty_hash_map,
         };
         return (StatusCode::BAD_REQUEST, Json(response));
     }
@@ -412,16 +410,16 @@ pub async  fn store_quiz_result(
                 let response = ApiResponse {
                     success: false,
                     message: "User ID not found for this email".to_string(),
-                    data: Vec::new(),
+                    data: empty_hash_map,
                 };
                 return (StatusCode::NOT_FOUND, Json(response));
             }
         },
         Err(err) => {
-            let response : ApiResponse::<Vec<()>> = ApiResponse {
+            let response =  ApiResponse {
                 success: false,
                 message: format!("User not found: {:?}", err),
-                data: Vec::new(),
+                data: empty_hash_map,
             };
             return (StatusCode::INTERNAL_SERVER_ERROR, Json(response));
         }
@@ -440,7 +438,7 @@ pub async  fn store_quiz_result(
             let response = ApiResponse {
                 success: true,
                 message: "Result was successfully added".to_string(),
-                data: Vec::new(),
+                data: empty_hash_map,
             };
             (StatusCode::CREATED, Json(response))
         }
@@ -448,7 +446,7 @@ pub async  fn store_quiz_result(
             let response = ApiResponse {
                 success: false,
                 message: format!("Failed to add result: {:?}", err),
-                data: Vec::new(),
+                data: empty_hash_map,
             };
             (StatusCode::INTERNAL_SERVER_ERROR, Json(response))
         }
@@ -507,6 +505,7 @@ pub async fn get_quiz_results(
 
     return match quiz_results {
         Ok(results) => {
+            let mut result_map: HashMap<i64, (String, String)> = HashMap::new();
             let response_data = results
                 .into_iter()
                 .map(|record| ScoredPoints {
