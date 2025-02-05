@@ -42,7 +42,10 @@ export default [
         key: "druga",
         title: "Lekcja druga",
         component: Druga,
-        // game:
+        game: {
+            title: "Super giera o AI",
+            path: '/games/first/index.html', // that's from public folder
+        }
     },
 ].map(x => {
     const lessonUrl = `${Routes.LEKCJA}/${x.key}`
@@ -53,5 +56,9 @@ export default [
         koniecUrl: quizUrl + Routes.LEKCJA_QUIZ_KONIEC,
         questions: x.quiz.questions.map(q => ({...q, url: `${quizUrl}/${q.id}`}))
     } : undefined
-    return {...x, url: lessonUrl, quiz}
+    const game = x.game ? {
+        ...x.game,
+        url: `${lessonUrl}${Routes.LEKCJA_GRA}`,
+    } : undefined
+    return {...x, url: lessonUrl, quiz, game}
 })

@@ -1,6 +1,5 @@
 import spisLekcji from "@assets/spisLekcji.ts";
 
-
 export default function Page() {
 
     return (

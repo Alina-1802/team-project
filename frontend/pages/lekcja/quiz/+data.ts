@@ -7,8 +7,9 @@ import spisLekcji from "@assets/spisLekcji.ts";
 export default function data(pageContext: PageContext) {
     const lesson = spisLekcji.find(x => x.key === pageContext.routeParams.id)
     const config = useConfig()
-    config({
-        title: lesson?.quiz?.title,
-        // description: lesson?.description
-    })
+    if (lesson?.quiz)
+        config({
+            title: lesson?.quiz?.title,
+            // description: lesson?.description
+        })
 }

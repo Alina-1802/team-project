@@ -1,7 +1,7 @@
 import spisLekcji from "@assets/spisLekcji.ts";
 
 export function onBeforePrerenderStart() {
-    const allQuestions = spisLekcji
+    return spisLekcji
         .flatMap(x => {
             if (!x.quiz) return []
             return [
@@ -11,6 +11,4 @@ export function onBeforePrerenderStart() {
             ]
         })
         .filter(x => x)
-    console.log(allQuestions)
-    return allQuestions
 }
