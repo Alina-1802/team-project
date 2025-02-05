@@ -6,14 +6,21 @@
   background-color: black;
   margin: 0;
   /*height: 10vh;*/
+}
 
-  label {
-    font-size: xxx-large;
-    background-image: linear-gradient(90deg, rgba(254, 254, 250, 1) 0%, rgba(191, 138, 232, 1) 18%, rgba(134, 59, 192, 1) 24%);
-    -webkit-background-clip: text;
-    color: transparent;
-    margin-left: 13px;
-    user-select: none;
+.logo {
+  font-size: xxx-large;
+  background-image: linear-gradient(90deg, rgba(254, 254, 250, 1) 0%, rgba(191, 138, 232, 1) 18%, rgba(134, 59, 192, 1) 24%);
+  -webkit-background-clip: text;
+  color: transparent;
+  margin-left: 13px;
+  user-select: none;
+  animation: color 1s linear;
+
+  &:hover {
+    color: var(--secondary);
+    text-decoration: none;
+    cursor: pointer;
   }
 }
 
@@ -35,6 +42,7 @@
   &.active {
     color: var(--primary);
   }
+
   &:hover {
     color: var(--secondary);
     text-decoration: none;
@@ -63,6 +71,8 @@ możemy zrobić go globalnym przenosząc go do global.css, i wtedy trzeba przeka
   color: var(--white) !important;
   cursor: pointer !important;
   font-size: medium !important;
+  margin-left: 13px;
+  user-select: none;
 
   &:hover {
     color: var(--primary) !important;

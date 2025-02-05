@@ -20,6 +20,8 @@
   --secondary: #BF8AE8;
   --white: #fefefa;
   --red: #fe004a;
+
+  --transition-length: 0.1s;
 }
 
 * {
@@ -32,6 +34,16 @@ body {
   margin: 0;
   padding: 0;
   height: 100%;
+  background-color: var(--primary);
+
+  & > * {
+    filter: blur(0);
+    transition: filter var(--transition-length) ease;
+  }
+}
+
+.page-is-transitioning > * {
+  filter: blur(10px);
 }
 
 a, a:visited, a:hover, a:active {
@@ -81,4 +93,13 @@ button {
     padding: 2rem;
     flex-grow: 1;
   }
+
+  main {
+    opacity: 1;
+    transition: opacity var(--transition-length) ease;
+  }
+}
+
+.page-is-transitioning .main_container > main {
+  opacity: 0;
 }

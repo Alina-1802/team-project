@@ -5,7 +5,7 @@ import {navigate} from "vike/client/router";
 export default function Page() {
     const {setValue} = useAppContext()
     const timeout = useRef<any>()
-    const [remainingTime, setRemainingTime] = useState(10)
+    const [remainingTime, setRemainingTime] = useState(5)
 
     useEffect(() => {
         setValue('token', undefined)
