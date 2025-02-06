@@ -8,7 +8,7 @@ using UnityEngine.UI;
 
 public class QuestPainting : Quest
 {
-    [SerializeField] UIController uiController;
+    [SerializeField] UIQuestPainting uiController;
     [SerializeField] CameraFocusController cameraFocusController;
     [SerializeField] GameSceneController gameSceneController;
     public Material[] paintingMaterials;

@@ -4,7 +4,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UIController : MonoBehaviour
+public class UIQuestPainting : MonoBehaviour
 {
     [SerializeField] GameSceneController gameSceneController;
     [SerializeField] QuestPainting quest;
