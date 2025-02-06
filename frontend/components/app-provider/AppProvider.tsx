@@ -3,6 +3,7 @@ import {ContextState, defaultState, StateUpdater} from "@type/Context.ts";
 import {AppContext} from '@hooks/useAppContext';
 import {QueryClient, QueryClientProvider} from "@tanstack/react-query";
 import useAppContext from "@hooks/useAppContext.ts";
+import axios from "@helpers/axios.ts";
 
 export function AppProvider({children}: { children: ReactNode }) {
     const initial = typeof window !== 'undefined' ? JSON.parse(localStorage.getItem('appState') || '{}') : null;
@@ -19,17 +20,26 @@ export function AppProvider({children}: { children: ReactNode }) {
     }), [_setState])
     // console.log('state',_state)
 
+    const setAuthorizationHeader = (token?: string) => {
+        if(token)
+            axios.defaults.headers['Authorization'] = `Bearer ${token}`;
+        else
+            delete axios.defaults.headers['Authorization'];
+    }
+
     useEffect(() => {
         if (typeof window !== 'undefined') {
             const storedState = localStorage.getItem('appState');
             if (!!storedState && storedState !== JSON.stringify(_state)) {
-                console.log('useEffect update state')
-                _setState(JSON.parse(storedState))
+                const parsedState = JSON.parse(storedState)
+                setAuthorizationHeader(parsedState.token)
+                _setState(parsedState)
             }
         }
     }, [typeof window !== 'undefined'])
 
     useEffect(() => {
+        setAuthorizationHeader(_state.token)
         const stringified = JSON.stringify(_state);
         if (typeof window !== 'undefined' && localStorage.getItem('appState') !== stringified) {
             // console.log('state update', _state)

@@ -25,9 +25,9 @@ export default function Nav({activeRoute}: { activeRoute?: string }) {
                 <label className={clsx(styles.icon, styles.right_icon)}>
                     <ClientOnly>
                         {email && token && (
-                            <>
+                            <a href={Routes.KONTO} className={clsx(activeRoute === Routes.KONTO && styles.active)}>
                                 <i className="fa-solid fa-envelope"></i> {email}
-                            </>
+                            </a>
                         )}
                     </ClientOnly>
                 </label>

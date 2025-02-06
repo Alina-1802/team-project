@@ -31,7 +31,7 @@ const quiz1 = {
     ]
 }
 
-export default [
+const lessons = [
     {
         key: "wprowadzenie",
         title: "Wprowadzenie",
@@ -62,3 +62,7 @@ export default [
     } : undefined
     return {...x, url: lessonUrl, quiz, game}
 })
+
+export default lessons
+
+export const quizIds = lessons.map(x => x.quiz?.id).filter(x => Number.isInteger(x))

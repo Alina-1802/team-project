@@ -48,6 +48,7 @@ export default function Page() {
 
     const onClickLogin = (e: any) => {
         e.preventDefault();
+        setMessage(null)
         const form = e.target;
         const login = form.login.value;
         const pass = form.pass.value;
@@ -55,10 +56,15 @@ export default function Page() {
     }
     const onClickRegister = (e: any) => {
         e.preventDefault();
+        setMessage(null)
         const form = e.target;
         // const nick = form.nick.value;
         const email = form.email.value;
         const pass = form.pass_reg.value;
+        if (pass !== form.pass_repeat.value) {
+            setMessage({type: 'error', message: 'Hasła muszą być takie same'})
+            return
+        }
         registerMutation.mutate({email: email, password: pass});
     }
 
@@ -221,7 +227,17 @@ function Message({message}: { message: MessageType | null }) {
     return (
         <div
             className={clsx(styles.button_block, message.type === 'error' && styles.error, message.type === 'success' && styles.success)}>
-            i cały misterny plan w pizdu: {message.message}
+            {message.type === 'success' ? (
+                <>
+                    <p>Udało się!</p>
+                    <p>{message.message}</p>
+                </>
+            ) : (
+                <>
+                    <p>Ups! Coś poszło nie tak</p>
+                    <p>{message.message}</p>
+                </>
+            )}
         </div>
     )
 }
