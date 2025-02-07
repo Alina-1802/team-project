@@ -360,7 +360,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 12, y: -40}
+  m_AnchoredPosition: {x: 12, y: -138}
   m_SizeDelta: {x: 151.3318, y: 50.708}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &400817665
@@ -664,7 +664,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &681567470
 RectTransform:
   m_ObjectHideFlags: 0
@@ -797,7 +797,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &693338487
 RectTransform:
   m_ObjectHideFlags: 0
@@ -6188,7 +6188,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -5, y: 242}
+  m_AnchoredPosition: {x: -5, y: 148}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1401285808
@@ -6715,8 +6715,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 191, y: 53}
-  m_SizeDelta: {x: 425.2513, y: 102.4858}
+  m_AnchoredPosition: {x: 197, y: 53}
+  m_SizeDelta: {x: 722.894, y: 102.486}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1756919411
 MonoBehaviour:
@@ -6738,7 +6738,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: AI Spy
+  m_text: Neuropolis
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: f9e044a79c0c26440a5e9cf74d30a3db, type: 2}
   m_sharedMaterial: {fileID: -4131006224460408939, guid: f9e044a79c0c26440a5e9cf74d30a3db, type: 2}
@@ -6849,7 +6849,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -334, y: 15}
+  m_AnchoredPosition: {x: -522.867, y: 15}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1800671358
