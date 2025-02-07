@@ -10,6 +10,7 @@ public class QuestState : BaseState
     {
         // stop player animation
         gameController.gameSceneController.Player.ResetPlayer();
+        gameController.gameSceneController.uiGameSceneController.HideScoreText();
     }
     public override void UpdateState(GameController gameController)
     {
@@ -17,6 +18,8 @@ public class QuestState : BaseState
 
         if (currentQuest == null)
         {
+            gameController.gameSceneController.uiGameSceneController.UpdateScoreText(gameController.gameSceneController.GetScore());
+            gameController.gameSceneController.uiGameSceneController.ShowScoreText();
             ExitState(gameController);
             gameController.SwitchState(gameController.playState);
         }

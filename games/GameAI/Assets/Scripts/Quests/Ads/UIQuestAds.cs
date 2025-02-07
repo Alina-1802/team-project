@@ -89,7 +89,8 @@ public class UIQuestAds : MonoBehaviour
         if (quest.IsCorrect())
         {
             winPanel.SetActive(true);
-            quest.isCompleted = true;
+            quest.SetIsCompleted(true);
+            gameSceneController.UpdateScore(quest);
         }
         else
         {

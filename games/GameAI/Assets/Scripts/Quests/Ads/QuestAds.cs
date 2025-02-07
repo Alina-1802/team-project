@@ -10,7 +10,6 @@ public class QuestAds : Quest
     [SerializeField] GameSceneController gameSceneController;
     [SerializeField] Slot[] slots;
 
-    public bool isCompleted = false;
     private bool isStarted = false;
 
     private Vector3 cameraPosition = new Vector3(114.16f, 2.03f, -112.83f);

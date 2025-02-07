@@ -4,14 +4,13 @@ using UnityEngine;
 
 public class PlayState : BaseState
 {
+    private bool firstWin = true;
     public override void EnterState(GameController gameController)
     {
-
+        gameController.gameSceneController.uiGameSceneController.ShowScoreText();
     }
     public override void UpdateState(GameController gameController)
     {
-        Debug.Log("play stat");
-
         if(gameController.gameSceneController == null)
         {
             gameController.SetGameSceneController();
@@ -24,6 +23,12 @@ public class PlayState : BaseState
             if(gameController.gameSceneController.currentQuest != null)
             {
                 gameController.SwitchState(gameController.questState);
+            }
+
+            if(gameController.gameSceneController.GetScore() == 3 && firstWin)
+            {
+                gameController.gameSceneController.uiGameSceneController.ShowFinishPanel();
+                firstWin = false;
             }
         }
     }

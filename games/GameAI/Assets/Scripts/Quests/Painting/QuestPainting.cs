@@ -12,7 +12,6 @@ public class QuestPainting : Quest
     [SerializeField] CameraFocusController cameraFocusController;
     [SerializeField] GameSceneController gameSceneController;
     public Material[] paintingMaterials;
-    public bool isCompleted = false;
     private bool isStarted = false;
 
     private Vector3 cameraPosition = new Vector3(2.64f, 1.94f, -64.77f);

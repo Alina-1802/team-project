@@ -10,7 +10,6 @@ public class QuestMachineLearning : Quest
     [SerializeField] GameSceneController gameSceneController;
     [SerializeField] Slot[] slots;
 
-    public bool isCompleted = false;
     private bool isStarted = false;
 
     private Vector3 cameraPosition = new Vector3(74.29f, 1.87f, -6.01f);

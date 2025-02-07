@@ -92,7 +92,8 @@ public class UIQuestPainting : MonoBehaviour
             if(quest.correctAnswersNumber == quest.paintingMaterials.Length)
             {
                 winPanel.gameObject.SetActive(true);
-                quest.isCompleted = true;
+                quest.SetIsCompleted(true);
+                gameSceneController.UpdateScore(quest);
             }
             else
             {
@@ -123,7 +124,8 @@ public class UIQuestPainting : MonoBehaviour
             if (quest.correctAnswersNumber == quest.paintingMaterials.Length)
             {
                 winPanel.gameObject.SetActive(true);
-                quest.isCompleted = true;
+                quest.SetIsCompleted(true);
+                gameSceneController.UpdateScore(quest);
             }
             else
             {
