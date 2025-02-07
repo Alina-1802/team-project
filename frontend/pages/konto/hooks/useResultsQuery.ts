@@ -11,8 +11,10 @@ export type ResultsPayload = {
 export type ResultsException = ApiException<ResultsPayload, ApiResponse<ResultsResponse>>
 
 export type ResultsResponse = {
-//     chuj wie w sumie
-}
+    scored_points: number,
+    created_at: string,
+}[]
+
 type Options = Omit<UseQueryOptions<ResultsResponse, ResultsException>, 'queryFn' | 'queryKey'> & ResultsPayload
 
 export default function useResultsQuery(options: Options) {

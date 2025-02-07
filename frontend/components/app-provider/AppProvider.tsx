@@ -1,4 +1,4 @@
-import React, {ReactNode, useEffect, useMemo, useState} from 'react';
+import React, {ReactNode, useEffect, useMemo, useRef, useState} from 'react';
 import {ContextState, defaultState, StateUpdater} from "@type/Context.ts";
 import {AppContext} from '@hooks/useAppContext';
 import {QueryClient, QueryClientProvider} from "@tanstack/react-query";
@@ -21,7 +21,7 @@ export function AppProvider({children}: { children: ReactNode }) {
     // console.log('state',_state)
 
     const setAuthorizationHeader = (token?: string) => {
-        if(token)
+        if (token)
             axios.defaults.headers['Authorization'] = `Bearer ${token}`;
         else
             delete axios.defaults.headers['Authorization'];
@@ -49,25 +49,55 @@ export function AppProvider({children}: { children: ReactNode }) {
 
     return (
         <AppContext.Provider value={{state: _state, ...functions, getValue}}>
-            <ClearStorageHandler>
-                <QueryClientProvider client={queryClient}>
-                    {children}
-                </QueryClientProvider>
-            </ClearStorageHandler>
+            <QueryClientProvider client={queryClient}>
+                <ClearStorageHandler/>
+                <QuizExitListener/>
+                {children}
+            </QueryClientProvider>
         </AppContext.Provider>
     );
 }
 
-function ClearStorageHandler({children}: { children: ReactNode }) {
+function ClearStorageHandler() {
     const {reset} = useAppContext()
+
     useEffect(() => {
-        console.log('hash', window.location.hash)
-        if (typeof window !== 'undefined' && window.location.hash === '#clearStorage') {
+        if (globalThis?.window?.location?.hash === '#clearStorage') {
             reset()
             window.location.hash = '';
         }
     }, [globalThis?.window?.location?.hash]);
-    return children
+
+    return null
+}
+
+function QuizExitListener() {
+    const {setValue} = useAppContext()
+
+    const onExit = () => {
+        console.log('quiz exit')
+        setValue('quizAnswers', undefined)
+        setValue('quizResult', undefined)
+    }
+
+    // useEffect(() => {
+    //     const onBeforeUnload = (e: BeforeUnloadEvent) => {
+    //         onExit()
+    //     }
+    //     window.addEventListener('beforeunload', onBeforeUnload)
+    //     return () => {
+    //         window.removeEventListener('beforeunload', onBeforeUnload)
+    //     }
+    // }, []);
+
+    useEffect(() => {
+        const currentPath = globalThis?.window?.location?.pathname
+        if (typeof currentPath === 'string' && !currentPath?.includes('quiz')) {
+            onExit()
+        }
+    }, [globalThis?.window?.location?.pathname]);
+
+    return null
 }
 
 function getValue<K extends keyof ContextState>(key: K): ContextState[K] {

@@ -65,4 +65,4 @@ const lessons = [
 
 export default lessons
 
-export const quizIds = lessons.map(x => x.quiz?.id).filter(x => Number.isInteger(x))
+export const quizzes = lessons.map(x => x.quiz).filter(x => x)

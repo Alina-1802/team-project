@@ -1,6 +1,6 @@
 import useAppContext from "@hooks/useAppContext.ts";
 import useResultsQuery from "@pages/konto/hooks/useResultsQuery.ts";
-import {quizIds} from "@assets/spisLekcji.ts";
+import {quizzes} from "@assets/spisLekcji.ts";
 import {useIsClient} from "@hooks/useIsClient.ts";
 import {useEffect} from "react";
 import useUserQuery from "@pages/konto/hooks/useUserQuery.ts";
@@ -9,9 +9,10 @@ export default function Page() {
     const {getValue} = useAppContext()
     const isClient = useIsClient()
     const token = getValue('token')
+    const quiz = quizzes.at(0)!
 
     const resultsQuery = useResultsQuery({
-        quiz_id: quizIds.at(0) ?? 1,
+        quiz_id: quiz.id,
         enabled: token !== undefined,
         retry: false,
     })
@@ -44,7 +45,15 @@ export default function Page() {
             )}
             <p>Wyniki quizów:</p>
             {resultsQuery.isError && <p>Błąd pobierania Twoich wyników: {resultsQuery.error?.response?.message}</p>}
-            {resultsQuery.isSuccess && <p>Tutaj coś trzeba obsłużyć</p>}
+            {resultsQuery.isSuccess && (
+                <ul>
+                    {resultsQuery.data.map((result, index) => (
+                        <li key={index}>
+                            <p>'{quiz.title}': {result.scored_points} z {quiz.questions.length} ({(new Date(result.created_at))?.toLocaleString()})</p>
+                        </li>
+                    ))}
+                </ul>
+            )}
         </main>
     )
 }

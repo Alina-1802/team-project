@@ -26,10 +26,10 @@ export default function Page() {
     const content = useMemo(() => {
         if (!lesson.quiz)
             return <NotFound/>
+        if (step === 'koniec' || quiz.isSaved)
+            return <Finished points={result ?? quiz.points} max={lesson.quiz.questions.length}/>
         if (step === 'start')
             return <Start title={lesson.quiz.title} description={lesson.quiz.description}/>
-        if (step === 'koniec')
-            return <Finished points={result ?? quiz.points} max={lesson.quiz.questions.length}/>
         if (quiz.currentQuestion) {
             return <Question/>
         } else {
