@@ -9,6 +9,7 @@ import {usePageContext} from "vike-react/usePageContext";
 import NotFound from "@components/quiz/NotFound.tsx";
 import Finished from "@components/quiz/Finished.tsx";
 import useQuizNavigation from "@hooks/useQuizNavigation.ts";
+import styles from "./style.module.css";
 
 export default function Page() {
     const lesson = useLessonData()
@@ -38,10 +39,10 @@ export default function Page() {
     }, [lesson.key, step, result, quiz.currentQuestion?.id])
 
     return (
-        <main>
+        <main className={styles.quizContainer}>
             <p><a href={lesson.url}>Powrót do lekcji</a></p>
-            <p>quiz lekcji o id: {lesson.key}</p>
-            <p>etap lub numer pytania: {step}</p>
+            {/*<p>quiz lekcji o id: {lesson.key}</p>*/}
+            {/*<p>etap lub numer pytania: {step}</p>*/}
             {content}
         </main>
     )

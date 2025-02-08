@@ -101,7 +101,8 @@ button {
   main {
     opacity: 1;
     transition: opacity var(--transition-length) ease;
-
+    max-width: 1440px;
+    margin: 0 auto;
   }
 }
 

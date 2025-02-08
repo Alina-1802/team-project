@@ -1,6 +1,7 @@
 import {navigate} from "vike/client/router";
 import Routes from "@type/Routes.ts";
 import useLessonData from "@hooks/useLessonData.ts";
+import styles from "./style.module.css";
 
 export default function Page() {
     const lesson = useLessonData()
@@ -11,9 +12,9 @@ export default function Page() {
     }
 
     return (
-        <main>
+        <main className={styles.main}>
             <p><a href={Routes.LEKCJA}>Powrót do listy lekcji</a></p>
-            to jest konkretna lekcja o id: {lesson.key}
+            {/*to jest konkretna lekcja o id: {lesson.key}*/}
             {lesson.component && <lesson.component/>}
             {lesson.game && (
                 <>
