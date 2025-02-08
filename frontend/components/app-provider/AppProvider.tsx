@@ -75,20 +75,10 @@ function QuizExitListener() {
     const {setValue} = useAppContext()
 
     const onExit = () => {
-        console.log('quiz exit')
+        // console.log('quiz exit')
         setValue('quizAnswers', undefined)
         setValue('quizResult', undefined)
     }
-
-    // useEffect(() => {
-    //     const onBeforeUnload = (e: BeforeUnloadEvent) => {
-    //         onExit()
-    //     }
-    //     window.addEventListener('beforeunload', onBeforeUnload)
-    //     return () => {
-    //         window.removeEventListener('beforeunload', onBeforeUnload)
-    //     }
-    // }, []);
 
     useEffect(() => {
         const currentPath = globalThis?.window?.location?.pathname
