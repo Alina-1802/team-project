@@ -34,7 +34,7 @@ export default function Page() {
         if (quiz.currentQuestion) {
             return <Question/>
         } else {
-            return <h4>ale chujnia, dziwny ten krok: {step}</h4>
+            return <h4>nieznany krok: {step}</h4>
         }
     }, [lesson.key, step, result, quiz.currentQuestion?.id])
 
