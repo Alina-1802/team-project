@@ -53,6 +53,7 @@ function useNavLinks() {
             {url: Routes.INDEX, label: 'Home'},
             {url: Routes.LEKCJA, label: 'Lekcje'},
             {url: Routes.O_NAS, label: 'O nas'},
+            {url: Routes.O_PROJEKCIE, label: 'o projekcie'},
         ]
         if (!isClient)
             return links

@@ -11,6 +11,7 @@ const Routes = {
     LEKCJA_QUIZ: "/quiz",
     LEKCJA_QUIZ_START: "/start",
     LEKCJA_QUIZ_KONIEC: "/koniec",
+    O_PROJEKCIE: "/o-projekcie",
 }
 
 export default Routes;
