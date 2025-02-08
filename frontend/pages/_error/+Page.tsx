@@ -7,14 +7,14 @@ export default function Page() {
         return (
             <main style={{textAlign: 'center'}}>
                 <h1>404</h1>
-                <p>sorcia, ta strona nie istnieje</p>
+                <p>ta strona nie istnieje</p>
             </main>
         );
     }
     return (
         <main style={{textAlign: 'center'}}>
             <h1>500</h1>
-            <p>ło kurwix, ale poszło źle</p>
+            <p>oj nie dobrze, wystąpił błąd serwera, spróbuj ponownie później</p>
         </main>
     );
 }
