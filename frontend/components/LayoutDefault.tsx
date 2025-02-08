@@ -14,7 +14,23 @@ export default function LayoutDefault({children, center = true, activeRoute}: Pr
         <div className={clsx("main_container", center && "center")}>
             <Nav activeRoute={activeRoute}/>
             {children}
-            <footer></footer>
+            <footer className="footer">
+                <p>Rzeszów 2025</p>
+            </footer>
+            <ul className="circles">
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+            </ul>
+
+
         </div>
     );
 }
