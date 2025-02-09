@@ -4,6 +4,9 @@ import Chapter1 from "@components/lessons-contents/Chapter1.tsx";
 import C2Lesson1 from "@components/lessons-contents/chapter2/C2Lesson1.tsx";
 import C2Lesson2 from "@components/lessons-contents/chapter2/C2Lesson2.tsx";
 import C2Lesson3 from "@components/lessons-contents/chapter2/C2Lesson3.tsx";
+import C1Lesson1 from "@components/lessons-contents/chapter1/C1Lesson1.tsx";
+import C1Lesson2 from "@components/lessons-contents/chapter1/C1Lesson2.tsx";
+import C1Lesson3 from "@components/lessons-contents/chapter1/C1Lesson3.tsx";
 
 const quiz1 = {
     title: "Quiz wprowadzający",
@@ -160,8 +163,22 @@ const lessons = [
     {
         key: "co-to-ai",
         index: 1,
-        title: "Rozdział 1: Co to jest AI? Poznaj inteligentne maszyny!",
-        component: Chapter1,
+        title: "Rozdział I:Co to jest sztuczna inteligencja?",
+        component: C1Lesson1,
+
+    },
+    {
+        key: "jak-uczy-ai",
+        index: 2,
+        title: "Rozdział I:Jak maszyny uczą się i podejmują decyzję?",
+        component: C1Lesson2,
+
+    },
+    {
+        key: "ai-vs-robot",
+        index: 3,
+        title: "Rozdział I:Czym różni się AI od robotów?",
+        component: C1Lesson3,
         quiz: quizChapter1,
     },
     // {
@@ -172,19 +189,19 @@ const lessons = [
     // },
     {
         key: "jak-ai-widzi-swiat",
-        index: 2,
+        index: 4,
         title: "Lekcja 2.1 Jak AI widzi świat?",
         component: C2Lesson1,
     },
     {
         key: "jak-ai-sie-uczy",
-        index: 3,
+        index: 5,
         title: "Lekcja 2.2 Jak AI się uczy?",
         component: C2Lesson2,
     },
     {
         key: "jak-ai-podejmuje-decyzje",
-        index: 4,
+        index: 6,
         title: "Lekcja 2.3 Jak AI podejmuje decyzje?",
         component: C2Lesson3,
         quiz: quizChapter2,

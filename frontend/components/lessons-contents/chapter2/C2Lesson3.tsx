@@ -17,6 +17,7 @@ export default function C2Lesson3() {
                 podstawowych cech, takich jak kształty czy dźwięki, aż po bardziej abstrakcyjne zależności i kontekst
                 sytuacyjny. Dzięki temu AI może np. nie tylko zidentyfikować obiekt na zdjęciu, ale także określić, w
                 jakim znajduje się otoczeniu i jaka jest jego rola w danej scenie. </p>
+
         </>
     )
 }
