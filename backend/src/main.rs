@@ -13,7 +13,7 @@ use sqlx::{query, sqlite::{SqlitePoolOptions, SqlitePool}};
 use tokio::net::TcpListener;
 use axum::{response::IntoResponse};
 use axum::body::Body;
-use axum::extract::OptionalFromRequest;
+use axum::extract::{OptionalFromRequest, Query};
 use axum::http::header;
 use axum::http::request::Parts;
 use axum::middleware::Next;
@@ -23,7 +23,7 @@ use headers::authorization::Bearer;
 use validator::{Validate};
 use axum_extra::TypedHeader;
 use tower_http::cors::{CorsLayer, Any};
-use chrono::{NaiveDateTime};
+use chrono::{DateTime, NaiveDateTime};
 
 
 #[tokio::main]
@@ -79,7 +79,6 @@ struct LoginRequest {
     email: String,
     password: String,
 }
-
 #[derive(Serialize)]
 struct LoginResponse {
     token: String,
@@ -90,9 +89,6 @@ struct Claims {
   pub sub: String,
   pub exp: usize,
 }
-struct AuthenticatedUser {
-    pub id: String,
-}
 #[derive(Debug, Serialize, Deserialize)]
 struct UpdateUserRequest {
     pub username: Option<String>,
@@ -100,26 +96,20 @@ struct UpdateUserRequest {
     pub last_name: Option<String>,
 }
 #[derive(Debug, Serialize, Deserialize)]
-struct GetUserDataResponse {
-    pub username: String,
-    pub first_name: String,
-    pub last_name: String,
-    pub email: String,
-}
-#[derive(Debug, Serialize, Deserialize)]
 struct QuizStoreResultRequest {
     pub quiz_id: Option<String>,
     pub scored_points: Option<String>,
+    pub quiz_date: Option<String>
 }
 #[derive(Debug, Serialize, Deserialize)]
 struct QuizGetResultRequest {
-    pub quiz_id: String,
-    pub scored_points: String,
+    pub quiz_id: Option<String>,
 }
-#[derive(Serialize)]
+#[derive(Serialize,Debug, sqlx::FromRow)]
 struct ScoredPoints {
     scored_points: i64,
-    created_at: Option<NaiveDateTime>
+    created_at: Option<NaiveDateTime>,
+    pub quiz_id: i64,
 }
 async fn register_user (
     Extension(pool): Extension<Arc<SqlitePool>>,
@@ -234,14 +224,14 @@ pub fn validate_register_request(req: &RegisterRequest) -> Result<(), String> {
 
     Ok(())
 }
-fn verify_token(token: &str) -> Result<Claims, jsonwebtoken::errors::Error> {
-    decode::<Claims>(
-        token,
-        &DecodingKey::from_secret("your_secret_key".as_bytes()),
-        &Validation::default(),
-    )
-        .map(|data| data.claims)
-}
+// fn verify_token(token: &str) -> Result<Claims, jsonwebtoken::errors::Error> {
+//     decode::<Claims>(
+//         token,
+//         &DecodingKey::from_secret("your_secret_key".as_bytes()),
+//         &Validation::default(),
+//     )
+//         .map(|data| data.claims)
+// }
 pub async fn auth_middleware<B>(
     mut req: Request<Body>,
     next: Next
@@ -358,14 +348,7 @@ pub async fn get_user(
             user_data.insert("first_name".to_string(), user.first_name.unwrap_or("Anonim".to_string()));
             user_data.insert("last_name".to_string(), user.last_name.unwrap_or("Anonim".to_string()));
             user_data.insert("email".to_string(), user.email);
-            // let user_data: HashMap<String,String> = new Has ![
-            //     serde_json::json!({
-            //         "username": user.username,
-            //         "first_name": user.first_name,
-            //         "last_name": user.last_name,
-            //         "email": user.email
-            //     })
-            // ];
+
             let response = ApiResponse {
                 success: true,
                 message: "User found".to_string(),
@@ -424,11 +407,17 @@ pub async  fn store_quiz_result(
             return (StatusCode::INTERNAL_SERVER_ERROR, Json(response));
         }
     };
+
+    let parsed_datetime = DateTime::parse_from_rfc3339(&payload.quiz_date.clone().unwrap())
+        .ok()
+        .map(|dt| dt.naive_utc());
+
     let result = query!(
-        "INSERT INTO quiz_result (quiz_id,user_id, scored_points,created_at) VALUES (?, ?, ?,datetime('now'))",
+        "INSERT INTO quiz_result (quiz_id, user_id, scored_points, created_at) VALUES (?, ?, ?, ?)",
         payload.quiz_id,
         user_id,
-        payload.scored_points
+        payload.scored_points,
+        parsed_datetime
     )
         .execute(&*pool)
         .await;
@@ -457,17 +446,9 @@ pub async  fn store_quiz_result(
 pub async fn get_quiz_results(
     Extension(pool): Extension<Arc<SqlitePool>>,
     Extension(user_email): Extension<String>,
-    Json(payload): Json<QuizStoreResultRequest>,
+    Query(payload): Query<QuizGetResultRequest>,
 )
     -> impl IntoResponse {
-    if payload.quiz_id.is_none() {
-        let response = ApiResponse {
-            success: false,
-            message: "Incomplete payload ".to_string(),
-            data: Vec::new(),
-        };
-        return (StatusCode::BAD_REQUEST, Json(response));
-    }
 
     let result = query!("SELECT user_id FROM users WHERE email = ?", user_email)
         .fetch_one(&*pool)
@@ -495,13 +476,24 @@ pub async fn get_quiz_results(
         }
     };
 
-    let quiz_results = query!(
-    "SELECT scored_points, created_at FROM quiz_result WHERE user_id = ? AND quiz_id = ?",
-    user_id,
-    payload.quiz_id
+    let quiz_results = if payload.quiz_id.is_none() {
+        sqlx::query_as!(
+        ScoredPoints,
+        "SELECT scored_points,quiz_id, created_at FROM quiz_result WHERE user_id = ?",
+        user_id
     )
-        .fetch_all(&*pool)
-        .await;
+            .fetch_all(&*pool)
+            .await
+    } else {
+        sqlx::query_as!(
+        ScoredPoints,
+        "SELECT scored_points,quiz_id, created_at FROM quiz_result WHERE user_id = ? AND quiz_id = ?",
+        user_id,
+        payload.quiz_id
+    )
+            .fetch_all(&*pool)
+            .await
+    };
 
     return match quiz_results {
         Ok(results) => {
@@ -511,6 +503,7 @@ pub async fn get_quiz_results(
                 .map(|record| ScoredPoints {
                     scored_points: record.scored_points,
                     created_at: record.created_at,
+                    quiz_id: record.quiz_id,
                 })
                 .collect();
 
