@@ -50,7 +50,7 @@ function useNavLinks() {
 
     return useMemo(() => {
         const links = [
-            {url: Routes.INDEX, label: 'Home'},
+            {url: Routes.INDEX, label: 'Strona główna'},
             {url: Routes.LEKCJA, label: 'Lekcje'},
             {url: Routes.O_NAS, label: 'O nas'},
             {url: Routes.O_PROJEKCIE, label: 'O projekcie'},
