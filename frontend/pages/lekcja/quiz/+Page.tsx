@@ -11,6 +11,7 @@ import Finished from "@components/quiz/Finished.tsx";
 import useQuizNavigation from "@hooks/useQuizNavigation.ts";
 import styles from "./style.module.css";
 
+
 export default function Page() {
     const lesson = useLessonData()
     const quiz = useQuizNavigation()

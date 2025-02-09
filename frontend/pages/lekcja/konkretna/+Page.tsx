@@ -25,6 +25,7 @@ export default function Page() {
             {lesson.quiz && (
                 <>
                     <p>Skończyłeś już lekcję? Spróbuj rozwiązać quiz!</p>
+                    <a ><button className={styles.nex_button}>Przejdz do kolejnej  lekcji </button></a>
                     <p><a href={lesson.quiz.startUrl}>Przejdź do quizu</a></p>
                 </>
             )}

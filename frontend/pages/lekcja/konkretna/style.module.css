@@ -53,3 +53,17 @@
 {
 
 }
+.nex_button
+{
+  font-size: 1.5rem;
+  padding: 10px 32px 13px 32px;
+  text-align: center;
+  background: var(--primary);
+  border-radius: 25px;
+  justify-self: right;
+  display: flex;
+  -webkit-box-shadow: 13px 11px 24px 0 rgba(66, 68, 90, 1);
+  -moz-box-shadow: 13px 11px 24px 0 rgba(66, 68, 90, 1);
+  box-shadow: 13px 11px 24px 0 rgb(19, 19, 19);
+  text-shadow: 4px 4px 6px rgba(66, 68, 90, 1);
+}
