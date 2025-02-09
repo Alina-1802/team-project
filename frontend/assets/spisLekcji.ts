@@ -136,16 +136,106 @@ const quizChapter1 = {
     questions: [
         {
             id: 1,
-            question: "🎯 Ćwiczenie 1: AI czy nie AI? - oto jest pytanie!",
+            question: "🎯 AI czy nie AI? - oto jest pytanie!",
             answers: [
                 {id: 1, text: "Kalkulator liczący sumę liczb."},
                 {id: 2, text: "Telefon rozpoznający Twoją twarz (Face ID).", correct: true},
                 {id: 3, text: "Drukarka drukująca dokument."},
-                {id: 4, text: "Tłumacz Google zmieniający język w czasie rzeczywistym."}
+                {id: 4, text: "Piekarnik u babci"}
             ]
         },
-
+        {
+            id: 2,
+            question: "🔍 Jak AI uczy się rozpoznawać obiekty na zdjęciach?",
+            answers: [
+                {id: 1, text: "AI losowo zgaduje, co znajduje się na obrazie."},
+                {id: 2, text: "AI dostaje tysiące zdjęć i szuka wzorców.", correct: true},
+                {id: 3, text: "AI używa intuicji, tak jak człowiek."},
+                {id: 4, text: "AI nie potrafi rozpoznawać obrazów."}
+            ]
+        },
+        {
+            id: 3,
+            question: "🚗 Jak działa AI w samochodach autonomicznych?",
+            answers: [
+                {id: 1, text: "AI analizuje drogę i pomaga prowadzić auto.", correct: true},
+                {id: 2, text: "AI kieruje samochodem tak, jak człowiek, ale szybciej."},
+                {id: 3, text: "AI działa tylko jako nawigacja GPS."},
+                {id: 4, text: "AI nie może być używane w pojazdach."}
+            ]
+        },
+        {
+            id: 4,
+            question: "💡 Jakie cechy odróżniają AI od robotów?",
+            answers: [
+                {id: 1, text: "AI to oprogramowanie, a roboty to fizyczne maszyny.", correct: true},
+                {id: 2, text: "AI zawsze ma ciało."},
+                {id: 3, text: "Roboty potrafią myśleć tak samo jak AI."},
+                {id: 4, text: "AI jest częścią każdego robota."}
+            ]
+        },
+        {
+            id: 5,
+            question: "🛠️ Który z poniższych przykładów przedstawia AI?",
+            answers: [
+                {id: 1, text: "Robot kuchenny mieszający składniki."},
+                {id: 2, text: "Netflix rekomendujący filmy na podstawie Twoich upodobań.", correct: true},
+                {id: 3, text: "Ramiona robotyczne montujące samochody w fabryce."},
+                {id: 4, text: "Zwykła maszyna do pisania."}
+            ]
+        },
+        {
+            id: 6,
+            question: "🤖 Czy każdy robot to AI?",
+            answers: [
+                {id: 1, text: "Tak, AI i roboty to to samo."},
+                {id: 2, text: "Nie, roboty mogą działać według instrukcji bez AI.", correct: true},
+                {id: 3, text: "Każdy robot musi mieć sztuczną inteligencję."},
+                {id: 4, text: "Roboty zawsze uczą się na podstawie danych."}
+            ]
+        },
+        {
+            id: 7,
+            question: "🧠 Czy AI jest mądrzejsza od ludzi?",
+            answers: [
+                {id: 1, text: "Tak, AI posiada intuicję i emocje."},
+                {id: 2, text: "Nie, AI analizuje dane, ale nie ma świadomości.", correct: true},
+                {id: 3, text: "AI wie wszystko i nie popełnia błędów."},
+                {id: 4, text: "AI potrafi działać bez programowania."}
+            ]
+        },
+        {
+            id: 8,
+            question: "🔍 Jak działa uczenie maszynowe (machine learning)?",
+            answers: [
+                {id: 1, text: "AI otrzymuje dane, szuka wzorców i poprawia swoje błędy.", correct: true},
+                {id: 2, text: "AI wymyśla nowe rozwiązania bez żadnych danych."},
+                {id: 3, text: "AI działa wyłącznie na podstawie instrukcji od człowieka."},
+                {id: 4, text: "AI losowo testuje różne rozwiązania bez analizy danych."}
+            ]
+        },
+        {
+            id: 9,
+            question: "⚠️ Czy AI może się zbuntować przeciwko ludziom?",
+            answers: [
+                {id: 1, text: "Tak, AI ma własną wolę i może przejąć świat."},
+                {id: 2, text: "Nie, AI działa według danych i nie podejmuje decyzji samodzielnie.", correct: true},
+                {id: 3, text: "AI potrafi podejmować emocjonalne decyzje."},
+                {id: 4, text: "AI nie istnieje naprawdę, to tylko teoria."}
+            ]
+        },
+        {
+            id: 10,
+            question: "🚨 Jakie zagrożenia mogą wynikać z użycia AI?",
+            answers: [
+                {id: 1, text: "Deepfake – fałszywe nagrania wygenerowane przez AI.", correct: true},
+                {id: 2, text: "AI może myśleć i planować jak człowiek."},
+                {id: 3, text: "AI zawsze działa zgodnie z etyką."},
+                {id: 4, text: "AI nie może wpływać na społeczeństwo."}
+            ]
+        }
     ]
+
 }
 
 const lessons = [
