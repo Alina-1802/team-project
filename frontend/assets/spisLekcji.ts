@@ -1,8 +1,9 @@
-import Wprowadzenie from "@components/lessons-contents/Wprowadzenie.tsx";
-import Druga from "@components/lessons-contents/Druga.tsx";
 import Routes from "@type/Routes.ts";
 import Chapter2 from "@components/lessons-contents/Chapter2.tsx";
 import Chapter1 from "@components/lessons-contents/Chapter1.tsx";
+import C2Lesson1 from "@components/lessons-contents/chapter2/C2Lesson1.tsx";
+import C2Lesson2 from "@components/lessons-contents/chapter2/C2Lesson2.tsx";
+import C2Lesson3 from "@components/lessons-contents/chapter2/C2Lesson3.tsx";
 
 const quiz1 = {
     title: "Quiz wprowadzający",
@@ -143,32 +144,52 @@ const quizChapter1 = {
 }
 
 const lessons = [
+    // {
+    //     key: "wprowadzenie",
+    //     title: "Wprowadzenie",
+    //     component: Wprowadzenie,
+    //     quiz: quiz1,
+    // },
+    // {
+    //     key: "druga",
+    //     title: "Lekcja druga",
+    //     component: Druga,
+    // },
     {
-        key: "wprowadzenie",
-        title: "Wprowadzenie",
-        component: Wprowadzenie,
-        quiz: quiz1,
+        key: "co-to-ai",
+        index: 1,
+        title: "Rozdział 1: Co to jest AI? Poznaj inteligentne maszyny!",
+        component: Chapter1,
+        quiz: quizChapter1,
+    },
+    // {
+    //     key: "jak-mysli-komputer",
+    //     title: "Rozdział 2 Jak myśli komputer? Odkryj sekrety AI!",
+    //     component: Chapter2,
+    //     quiz: quizChapter2,
+    // },
+    {
+        key: "jak-ai-widzi-swiat",
+        index: 2,
+        title: "Lekcja 2.1 Jak AI widzi świat?",
+        component: C2Lesson1,
     },
     {
-        key: "druga",
-        title: "Lekcja druga",
-        component: Druga,
+        key: "jak-ai-sie-uczy",
+        index: 3,
+        title: "Lekcja 2.2 Jak AI się uczy?",
+        component: C2Lesson2,
+    },
+    {
+        key: "jak-ai-podejmuje-decyzje",
+        index: 4,
+        title: "Lekcja 2.3 Jak AI podejmuje decyzje?",
+        component: C2Lesson3,
+        quiz: quizChapter2,
         game: {
             title: "Super giera o AI",
             path: '/games/first/index.html', // that's from public folder
         }
-    },
-    {
-        key: "co-to-ai",
-        title: "Rozdział 1: Co to jest AI? Poznaj inteligentne maszyny!",
-        component:Chapter1,
-        quiz: quizChapter1,
-    },
-    {
-        key: "jak-mysli-komputer",
-        title: "Rozdział 2 Jak myśli komputer? Odkryj sekrety AI!",
-        component: Chapter2,
-        quiz: quizChapter2,
     },
 ].map(x => {
     const lessonUrl = `${Routes.LEKCJA}/${x.key}`
