@@ -26,6 +26,7 @@ export default function useQuizNavigation() {
                 answers?.find(y => y.questionId === x.id)?.answerId === (x.answers.find(y => y.correct)?.id ?? -1)
             ).length ?? 0
             return {
+                quizId: lesson?.quiz?.id,
                 remainingQuestions,
                 currentQuestion: currentQuestion ?? remainingQuestions?.[0],
                 isFinished,

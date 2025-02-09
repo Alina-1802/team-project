@@ -10,5 +10,5 @@ export function onBeforePrerenderStart() {
                 x.quiz.koniecUrl,
             ]
         })
-        .filter(x => x)
+        .filter(x => !!x)
 }

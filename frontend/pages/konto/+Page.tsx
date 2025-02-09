@@ -1,32 +1,26 @@
 import useAppContext from "@hooks/useAppContext.ts";
-import useResultsQuery from "@pages/konto/hooks/useResultsQuery.ts";
-import {quizzes} from "@assets/spisLekcji.ts";
 import {useIsClient} from "@hooks/useIsClient.ts";
 import useUserQuery from "@pages/konto/hooks/useUserQuery.ts";
+import ResultsHistory from "@components/results-history/ResultsHistory.tsx";
+import styles from './style.module.css'
 
 export default function Page() {
     const {getValue} = useAppContext()
     const isClient = useIsClient()
     const token = getValue('token')
-    const quiz = quizzes.at(0)!
 
-    const resultsQuery = useResultsQuery({
-        quiz_id: quiz.id,
-        enabled: token !== undefined,
-        retry: false,
-    })
     const userQuery = useUserQuery({
         enabled: token !== undefined
     })
 
-    if (!isClient || resultsQuery.isLoading || userQuery.isLoading)
+    if (!isClient || userQuery.isLoading)
         return (<main>Ładowanie...</main>)
 
     if (!token)
         return (<main>Musisz być zalogowany</main>)
 
     return (
-        <main>
+        <main className={styles.main}>
             <h2>Twoje konto</h2>
             {userQuery.isError &&
                 <p>Błąd pobierania informacji o Twoim koncie: {userQuery.error?.response?.message}</p>}
@@ -39,17 +33,7 @@ export default function Page() {
                     <p>Email: {userQuery.data.email}</p>
                 </div>
             )}
-            <p>Wyniki quizów:</p>
-            {resultsQuery.isError && <p>Błąd pobierania Twoich wyników: {resultsQuery.error?.response?.message}</p>}
-            {resultsQuery.isSuccess && (
-                <ul>
-                    {resultsQuery.data.map((result, index) => (
-                        <li key={index}>
-                            <p>'{quiz.title}': {result.scored_points} z {quiz.questions.length} ({(new Date(result.created_at))?.toLocaleString()})</p>
-                        </li>
-                    ))}
-                </ul>
-            )}
+            <ResultsHistory/>
         </main>
     )
 }

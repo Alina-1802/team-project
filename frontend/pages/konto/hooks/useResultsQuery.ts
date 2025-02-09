@@ -5,12 +5,13 @@ import {AxiosResponse} from "axios";
 import {ApiResponse} from "@type/ApiResponse.ts";
 
 export type ResultsPayload = {
-    quiz_id: number,
+    quiz_id?: number,
 }
 
 export type ResultsException = ApiException<ResultsPayload, ApiResponse<ResultsResponse>>
 
 export type ResultsResponse = {
+    quiz_id: number,
     scored_points: number,
     created_at: string,
 }[]

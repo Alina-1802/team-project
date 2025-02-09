@@ -35,6 +35,7 @@ const quiz1 = {
 
 const quizChapter2 = {
     title: "Quiz z rodziału 'Jak myśli komputer?'",
+    shortTitle: "Jak myśli komputer?",
     id: 2,
     description: "Quiz pozwoli Ci sprawdzić, jak dobrze przyswoiłeś informacje z lekcji o tym, jak sztuczna inteligencja myśli i się uczy.",
     questions: [
@@ -125,7 +126,8 @@ const quizChapter2 = {
     ]
 }
 const quizChapter1 = {
-    title: "Quiz z rodziału 'Jak myśli komputer?",
+    title: "Quiz z rodziału 'Co to jest AI?",
+    shortTitle: "Co to jest AI?",
     id: 1,
     description: "Quiz pozwoli Ci sprawdzić, jak dobrze przyswoiłeś informacje z lekcji o tym, jak sztuczna inteligencja myśli i się uczy.",
     questions: [
@@ -209,4 +211,4 @@ const lessons = [
 
 export default lessons
 
-export const quizzes = lessons.map(x => x.quiz).filter(x => x)
+export const quizzes = lessons.map(x => x.quiz).filter(x => !!x)

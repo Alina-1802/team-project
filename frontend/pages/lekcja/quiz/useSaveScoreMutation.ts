@@ -16,7 +16,7 @@ export type SaveScoreResponse = {}
 
 type Options = Omit<UseMutationOptions<SaveScoreResponse, SaveScoreException, SaveScorePayload>, 'mutationFn'>
 
-export default function useSaveScoreMutation(options: Options) {``
+export default function useSaveScoreMutation(options: Options) {
     return useMutation<SaveScoreResponse, SaveScoreException, SaveScorePayload>({
         mutationFn: async (payload) => {
             const {data}: AxiosResponse<ApiResponse<SaveScoreResponse>> = await axios.post('/store-quiz-result', payload)

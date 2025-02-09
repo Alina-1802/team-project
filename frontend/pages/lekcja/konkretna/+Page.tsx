@@ -30,10 +30,14 @@ export default function Page() {
             )}
             <div className={styles.navigationButtons}>
                 {prev && (
-                    <button className={styles.nex_button} onClick={() => navigate(prev?.url)}>Wróć do poprzedniej lekcji</button>
+                    <button className={styles.nex_button} onClick={() => navigate(prev?.url)}>
+                        Wróć do poprzedniej lekcji
+                    </button>
                 )}
                 {next && (
-                    <button className={styles.nex_button} onClick={() => navigate(next?.url)}>Idź do kolejnej lekcji</button>
+                    <button className={styles.nex_button} onClick={() => navigate(next?.url)}>
+                        Idź do kolejnej lekcji
+                    </button>
                 )}
             </div>
         </main>

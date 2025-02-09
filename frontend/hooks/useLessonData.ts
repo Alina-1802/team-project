@@ -7,5 +7,4 @@ export default function useLessonData() {
     return useMemo(() => {
         return spisLekcji.find(x => x.key === pageContext.routeParams.id)
     }, [pageContext.routeParams.id, spisLekcji?.length])
-
 }
