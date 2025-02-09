@@ -27,3 +27,29 @@
     margin: 0 0 1rem;
   }
 }
+.normal_text
+{
+  white-space: pre-line;
+}
+.hedder_text
+{
+  font-size: 2.5rem;
+  margin: 1rem 0;
+  font-weight: bold;
+}
+.article_box ul
+{
+  font-size: 1.25rem;
+  background: var(--gradient-outline_opacity);
+  border-radius: 25px;
+  max-width: 800px;
+  padding: 20px;
+}
+.article_box ul > *
+{
+  margin-left: 40px;
+}
+.article_box
+{
+
+}

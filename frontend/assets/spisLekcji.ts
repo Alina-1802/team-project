@@ -2,6 +2,7 @@ import Wprowadzenie from "@components/lessons-contents/Wprowadzenie.tsx";
 import Druga from "@components/lessons-contents/Druga.tsx";
 import Routes from "@type/Routes.ts";
 import Chapter2 from "@components/lessons-contents/Chapter2.tsx";
+import Chapter1 from "@components/lessons-contents/Chapter1.tsx";
 
 const quiz1 = {
     title: "Quiz wprowadzający",
@@ -122,6 +123,24 @@ const quizChapter2 = {
         },
     ]
 }
+const quizChapter1 = {
+    title: "Quiz z rodziału 'Jak myśli komputer?",
+    id: 1,
+    description: "Quiz pozwoli Ci sprawdzić, jak dobrze przyswoiłeś informacje z lekcji o tym, jak sztuczna inteligencja myśli i się uczy.",
+    questions: [
+        {
+            id: 1,
+            question: "🎯 Ćwiczenie 1: AI czy nie AI? - oto jest pytanie!",
+            answers: [
+                {id: 1, text: "Kalkulator liczący sumę liczb."},
+                {id: 2, text: "Telefon rozpoznający Twoją twarz (Face ID).", correct: true},
+                {id: 3, text: "Drukarka drukująca dokument."},
+                {id: 4, text: "Tłumacz Google zmieniający język w czasie rzeczywistym."}
+            ]
+        },
+
+    ]
+}
 
 const lessons = [
     {
@@ -138,6 +157,12 @@ const lessons = [
             title: "Super giera o AI",
             path: '/games/first/index.html', // that's from public folder
         }
+    },
+    {
+        key: "co-to-ai",
+        title: "Rozdział 1: Co to jest AI? Poznaj inteligentne maszyny!",
+        component:Chapter1,
+        quiz: quizChapter1,
     },
     {
         key: "jak-mysli-komputer",

@@ -157,6 +157,31 @@
     display: flex;
     flex-direction: column;
     background: var(--gradient-outline);
-    max-width: 400px;
-    height: 20px;
+    width: 250px;
+    border-radius: 25px;
+    padding: 5px;
+}
+.row_colums
+{
+    flex-direction: row;
+    display: flex;
+    gap: 9em;
+}
+.box header
+{
+    font-size: 20px;
+}
+.box > *
+{
+    padding: 10px 10px 12px 10px;
+}
+.box ul{
+    margin-left: 42px;
+}
+.article_image
+{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 10px;
+
 }
