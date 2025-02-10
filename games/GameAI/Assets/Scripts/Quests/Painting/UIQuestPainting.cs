@@ -70,6 +70,16 @@ public class UIQuestPainting : MonoBehaviour
         gameSceneController.ClearCurrentQuest();
     }
 
+    public void OnNoClicked()
+    {
+        talkButton.gameObject.SetActive(false);
+        introductionPanel.SetActive(false);
+        descriptionPanel.SetActive(false);
+
+        ClearUI();
+        gameSceneController.ClearCurrentQuest();
+    }
+
     public void OnHumanClicked()
     {
         // check if it was a correct answer

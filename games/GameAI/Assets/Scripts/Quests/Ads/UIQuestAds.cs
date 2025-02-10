@@ -75,6 +75,16 @@ public class UIQuestAds : MonoBehaviour
         gameSceneController.ClearCurrentQuest();
     }
 
+    public void OnNoClicked()
+    {
+        talkButton.gameObject.SetActive(false);
+        introductionPanel.SetActive(false);
+        descriptionPanel.SetActive(false);
+
+        ClearUI();
+        gameSceneController.ClearCurrentQuest();
+    }
+
     public void OnReplayClicked()
     {
         ResetUI();
