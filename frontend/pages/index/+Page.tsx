@@ -15,7 +15,7 @@ export default function Page() {
                 {isLogged ? (
                     <>
                         <label className={styles.join_to_us}>Rozpocznij już dziś</label>
-                        <a href={Routes.LOGOWANIE} className={styles.registerButton}>Idę do lekcji</a>
+                        <a href={Routes.LEKCJA} className={styles.registerButton}>Idę do lekcji</a>
                     </>
                 ) : (
                     <>

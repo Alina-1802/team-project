@@ -48,7 +48,7 @@ export default function Page() {
     const [selectedChapter, setSelectedChapter] = useState<Chapter | null>(null);
     return (
         <main className={styles.main}>
-          <h1 className={styles.caption}>O nas - zespół AIQuizzHub</h1>
+          <h1 className={styles.caption}>O projekcie AIQuizzHub</h1>
           <article className={styles.article_basic}>
             <header>O projekcie</header>
             <p>Nasz projekt to nowoczesna strona internetowa stworzona z myślą o dzieciach i młodzieży, która wprowadza w fascynujący świat sztucznej inteligencji (AI). Dzięki interaktywnym lekcjom, i przykładach z życia uczniowie w prosty i przystępny sposób mogą poznać podstawy AI, a dzięki temu rozwijać kreatywne myślenie, a w przyszłości także i umiejętności programowania. Naszym celem jest inspirowanie młodych umysłów do odkrywania nowych technologii i przygotowanie ich na przyszłość w cyfrowym świecie. I mamy nadzieję, że poprzez tą platformę zainspirujemy nie jeden.</p>
