@@ -242,7 +242,9 @@ button {
   display: block;
   background-color: black;
   text-align: center;
-  margin-top: 8em;
   align-content: center;
   border-top: 2px solid var(--primary);
+  &:has(iframe) {
+    margin-top: 0;
+  }
 }
