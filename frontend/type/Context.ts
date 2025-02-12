@@ -1,11 +1,15 @@
 export type ContextState = {
     token?: string;
     email?: string;
+    quizAnswers?: { questionId: number, answerId: number }[];
+    quizResult?: number;
 };
 
 export const defaultState: ContextState = {
     token: undefined,
     email: undefined,
+    quizAnswers: undefined,
+    quizResult: undefined,
 };
 
 export type StateUpdater = (prevState: ContextState) => ContextState;

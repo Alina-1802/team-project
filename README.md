@@ -17,7 +17,7 @@ cargo run
 ## Instalacja frontendu:
 #### polecamy nvm - upraszcza zarządzanie wersjami node gdybyście mieli więcej projektów, ewentualnie można zainstalować po prostu node.js np w wersji 22, ale tutaj pokażemy ścieżkę z nvm
 ```
-https://github.com/coreybutler/nvm-windows?tab=readme-ov-file
+https://github.com/coreybutler/nvm-windows/releases
 nvm-setup.exe
 
 nvm i 22

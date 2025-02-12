@@ -1,0 +1,16 @@
+.question {
+  cursor: pointer;
+
+}
+
+.selected {
+  font-weight: bold;
+  text-decoration: underline;
+  color: var(--secondary)
+}
+
+.nextButton {
+  text-decoration: underline;
+  /*color: var(--primary)*/
+
+}
