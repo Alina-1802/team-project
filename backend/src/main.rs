@@ -29,7 +29,6 @@ use chrono::{DateTime, NaiveDateTime};
 #[tokio::main]
 async fn main() {
     dotenv().ok();
-
     let cors = CorsLayer::new()
         .allow_origin(Any)
         .allow_methods(Any)
@@ -54,7 +53,6 @@ async fn main() {
         .route("/get-quiz-results", get(get_quiz_results).route_layer(middleware::from_fn(auth_middleware::<Body>)))
         .layer(Extension(Arc::new(db_pool)))
         .layer(cors);
-
 
     axum::serve(listener,app).await.expect("Error serving application")
 }
@@ -99,7 +97,7 @@ struct UpdateUserRequest {
 struct QuizStoreResultRequest {
     pub quiz_id: Option<String>,
     pub scored_points: Option<String>,
-    pub quiz_date: Option<String>
+    pub date: Option<String>
 }
 #[derive(Debug, Serialize, Deserialize)]
 struct QuizGetResultRequest {
@@ -224,14 +222,6 @@ pub fn validate_register_request(req: &RegisterRequest) -> Result<(), String> {
 
     Ok(())
 }
-// fn verify_token(token: &str) -> Result<Claims, jsonwebtoken::errors::Error> {
-//     decode::<Claims>(
-//         token,
-//         &DecodingKey::from_secret("your_secret_key".as_bytes()),
-//         &Validation::default(),
-//     )
-//         .map(|data| data.claims)
-// }
 pub async fn auth_middleware<B>(
     mut req: Request<Body>,
     next: Next
