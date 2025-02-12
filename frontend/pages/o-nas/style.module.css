@@ -151,4 +151,5 @@
 .main
 {
     display: grid;
+    position: relative;
 }

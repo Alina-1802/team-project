@@ -1,4 +1,4 @@
-import {useState} from "react";
+import {useRef, useState} from "react";
 import styles from "./style.module.css";
 import alina from '@assets/img/main/alina.svg';
 import pawel from '@assets/img/main/pawel.svg';
@@ -47,9 +47,17 @@ const teamMembers: TeamMember[] = [
 export default function Page() {
     const [selectedMember, setSelectedMember] = useState<TeamMember | null>(null);
 
+    const setMember = (member: any) => {
+        setSelectedMember(member);
+    }
+
+    const clearMember = () => {
+        setSelectedMember(null);
+    }
+
     return (
         <main className={styles.main}>
-            {selectedMember === null && (
+            {/*{selectedMember === null && (*/}
                 <>
                     <h1 className={styles.caption}>O nas - zespół AIQuizzHub</h1>
                     <article className={styles.article_basic}>
@@ -67,7 +75,7 @@ export default function Page() {
                             radę.</p>
                     </article>
                 </>
-            )}
+            {/*)}*/}
 
             <figure>
                 <figcaption className={styles.caption}>
@@ -77,7 +85,7 @@ export default function Page() {
                 {selectedMember === null ? (
                     <ul className={styles.ul_image}>
                         {teamMembers.map((member) => (
-                            <li key={member.id} onClick={() => setSelectedMember(member)}>
+                            <li key={member.id} onClick={() => setMember(member)}>
                                 <a>
                                     <img src={member.img} alt={member.name}/>
                                 </a>
@@ -91,7 +99,7 @@ export default function Page() {
                         <div className={styles.details}>
                             <h2>{selectedMember.role}</h2>
                             <p>{selectedMember.description}</p>
-                            <button onClick={() => setSelectedMember(null)}>Powrót</button>
+                            <button onClick={() => clearMember()}>Powrót</button>
                         </div>
                     </div>
                 )}
