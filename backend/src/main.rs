@@ -398,7 +398,7 @@ pub async  fn store_quiz_result(
         }
     };
 
-    let parsed_datetime = DateTime::parse_from_rfc3339(&payload.quiz_date.clone().unwrap())
+    let parsed_datetime = DateTime::parse_from_rfc3339(&payload.date.clone().unwrap())
         .ok()
         .map(|dt| dt.naive_utc());
 
