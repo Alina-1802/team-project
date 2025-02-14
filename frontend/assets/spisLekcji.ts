@@ -253,23 +253,27 @@ const lessons = [
     {
         key: "co-to-ai",
         index: 1,
-        title: "Rozdział I:Co to jest sztuczna inteligencja?",
+        title: "Lekcja 1.1 Co to jest sztuczna inteligencja?",
         component: C1Lesson1,
 
     },
     {
         key: "jak-uczy-ai",
         index: 2,
-        title: "Rozdział I:Jak maszyny uczą się i podejmują decyzję?",
+        title: "Lekcja 1.2 Jak maszyny uczą się i podejmują decyzję?",
         component: C1Lesson2,
 
     },
     {
         key: "ai-vs-robot",
         index: 3,
-        title: "Rozdział I:Czym różni się AI od robotów?",
+        title: "Lekcja 1.3 Czym różni się AI od robotów?",
         component: C1Lesson3,
         quiz: quizChapter1,
+        game: {
+            title: "Super giera o AI",
+            path: '/games/first/index.html', // that's from public folder
+        }
     },
     // {
     //     key: "jak-mysli-komputer",
@@ -295,10 +299,6 @@ const lessons = [
         title: "Lekcja 2.3 Jak AI podejmuje decyzje?",
         component: C2Lesson3,
         quiz: quizChapter2,
-        game: {
-            title: "Super giera o AI",
-            path: '/games/first/index.html', // that's from public folder
-        }
     },
 ].map(x => {
     const lessonUrl = `${Routes.LEKCJA}/${x.key}`

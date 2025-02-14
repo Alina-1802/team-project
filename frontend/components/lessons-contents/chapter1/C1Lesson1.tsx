@@ -5,7 +5,7 @@ export default function Chapter2() {
     return (
         <>
             <article className={styles.article_box}>
-                <header className={styles.hedder_text}>Rozdział 2 Jak myśli komputer? Odkryj sekrety AI!</header>
+                <header className={styles.hedder_text}>Co to jest sztuczna inteligencja?</header>
                 <p className={styles.normal_text}>
                     Wyobraź sobie, że twój telefon potrafi odblokować się, gdy na niego spojrzysz. Gdy pytasz Asystenta Google, jaka jest pogoda on odpowaiada w kilka sekund. A kiedy włączasz Netflixa dostajesz idealne rekomendacje filmów.
                     <br/>
